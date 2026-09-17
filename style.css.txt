@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff;
+}
+
+.player-card {
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 320px;
+    text-align: center;
+}
+
+.vinyl-container {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.vinyl {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #000 30%, #222 31%, #111 60%, #000 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+    transition: transform 0.5s ease;
+}
+
+.vinyl.playing {
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.vinyl-label {
+    width: 60px;
+    height: 60px;
+    background: #ff4757;
+    border-radius: 50%;
+    border: 4px solid #fff;
+}
+
+.song-details .title {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.song-details .artist {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.progress-container {
+    background: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px 0 5px;
+    height: 6px;
+    width: 100%;
+
+}
+
+.progress-bar {
+    background: #ff4757;
+    border-radius: 5px;
+    height: 100%;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.time-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.2s;
+}
+
+.btn:hover {
+    color: #ff4757;
+}
+
+.play-btn {
+    width: 50px;
+    height: 50px;
+    background: #ff4757;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.play-btn:hover {
+    background: #ff6b81;
+    color: #fff;
+}
