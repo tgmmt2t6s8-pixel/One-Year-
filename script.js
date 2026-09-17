@@ -1,62 +1,115 @@
+const SECRET_PIN = "13102025";
+let enteredPIN = "";
+let attemptCount = 0;
+
+function pressKey(num) {
+    if (enteredPIN.length < 8) {
+        enteredPIN += num;
+        updateDots();
+        if (enteredPIN.length === 8) {
+            setTimeout(checkPIN, 200);
+        }
+    }
+}
+
+function clearPIN() {
+    enteredPIN = "";
+    updateDots();
+}
+
+function updateDots() {
+    for (let i = 1; i <= 8; i++) {
+        const dot = document.getElementById(`dot${i}`);
+        if (i <= enteredPIN.length) {
+            dot.classList.add('filled');
+        } else {
+            dot.classList.remove('filled');
+        }
+    }
+}
+
+function checkPIN() {
+    attemptCount++;
+
+    if (attemptCount === 1) {
+        alert("❌ Cod incorect! Mai ai doar 2 încercări!");
+        document.getElementById("pin-status").innerText = "⚠️ Mai ai 2 încercări!";
+        clearPIN();
+    } 
+    else if (attemptCount === 2) {
+        alert("❌ Cod incorect! Cadourile s-au blocat și nu le mai poți accesa! 🔒\n\nSistemul ți-a oferit totuși încă 2 încercări de salvare.");
+        document.getElementById("pin-status").innerText = "⚠️ Cadouri blocate! Încercări de salvare: 2";
+        clearPIN();
+    }
+    else if (attemptCount === 3) {
+        alert("❌ Cod incorect! Mai ai 1 singură încercare de salvare!");
+        document.getElementById("pin-status").innerText = "⚠️ Ultimul test! Bagă codul corect!";
+        clearPIN();
+    }
+    else {
+        if (enteredPIN === SECRET_PIN) {
+            document.getElementById('screen-pin').classList.remove('active');
+            document.getElementById('screen-gifts').classList.add('active');
+        } else {
+            alert("❌ Cod greșit! Mai încearcă!");
+            clearPIN();
+        }
+    }
+}
+
+/* LOGICĂ PLAYER MUZICAL ȘI BARA DE DERULARE */
 const audio = document.getElementById('audio-player');
-const playBtn = document.getElementById('play');
-const playIcon = document.getElementById('play-icon');
-const progressContainer = document.getElementById('progress-container');
+const playBtn = document.getElementById('play-btn');
+const vinyl = document.getElementById('vinyl-disk');
+const progressFill = document.getElementById('progress-fill');
 const progressBar = document.getElementById('progress-bar');
 const currentTimeEl = document.getElementById('current-time');
-const durationEl = document.getElementById('duration');
-const vinyl = document.getElementById('vinyl');
+const totalDurationEl = document.getElementById('total-duration');
+
+function openMusicModal() {
+    document.getElementById('modal-music').classList.add('active');
+}
+
+function closeMusicModal() {
+    document.getElementById('modal-music').classList.remove('active');
+    audio.pause();
+    playBtn.innerText = "▶";
+    vinyl.classList.remove('spinning');
+}
 
 function togglePlay() {
     if (audio.paused) {
         audio.play();
-        playIcon.classList.remove('fa-play');
-        playIcon.classList.add('fa-pause');
-        vinyl.classList.add('playing');
+        playBtn.innerText = "⏸";
+        vinyl.classList.add('spinning');
     } else {
         audio.pause();
-        playIcon.classList.remove('fa-pause');
-        playIcon.classList.add('fa-play');
-        vinyl.classList.remove('playing');
+        playBtn.innerText = "▶";
+        vinyl.classList.remove('spinning');
     }
 }
 
-function updateProgress(e) {
-    const { duration, currentTime } = e.srcElement;
-    if (isNaN(duration)) return;
-
-    const progressPercent = (currentTime / duration) * 100;
-    progressBar.style.width = `${progressPercent}%`;
-
-    const currentMinutes = Math.floor(currentTime / 60);
-    let currentSeconds = Math.floor(currentTime % 60);
-    if (currentSeconds < 10) currentSeconds = `0${currentSeconds}`;
-    currentTimeEl.textContent = `${currentMinutes}:${currentSeconds}`;
-
-    const durationMinutes = Math.floor(duration / 60);
-    let durationSeconds = Math.floor(duration % 60);
-    if (durationSeconds < 10) durationSeconds = `0${durationSeconds}`;
-    durationEl.textContent = `${durationMinutes}:${durationSeconds}`;
+function skipTime(seconds) {
+    audio.currentTime += seconds;
 }
 
-function setProgress(e) {
-    const width = this.clientWidth;
-    const clickX = e.offsetX;
-    const duration = audio.duration;
-
-    if (!isNaN(duration)) {
-        audio.currentTime = (clickX / width) * duration;
+audio.addEventListener('timeupdate', () => {
+    if (audio.duration) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = pct + '%';
+        currentTimeEl.innerText = formatTime(audio.currentTime);
+        totalDurationEl.innerText = formatTime(audio.duration);
     }
-}
-
-playBtn.addEventListener('click', togglePlay);
-audio.addEventListener('timeupdate', updateProgress);
-progressContainer.addEventListener('click', setProgress);
-
-audio.addEventListener('ended', () => {
-    playIcon.classList.remove('fa-pause');
-    playIcon.classList.add('fa-play');
-    vinyl.classList.remove('playing');
-    progressBar.style.width = '0%';
-    currentTimeEl.textContent = '0:00';
 });
+
+progressBar.addEventListener('click', (event) => {
+    const clickPosition = event.clientX - progressBar.getBoundingClientRect().left;
+    const barWidth = progressBar.clientWidth;
+    audio.currentTime = (clickPosition / barWidth) * audio.duration;
+});
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
