@@ -2,16 +2,26 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Surpriză pentru Tine ♥</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
             font-family: 'Fredoka', sans-serif;
             background-color: #fde8ed;
             color: #5a3e43;
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -42,7 +52,7 @@
             background-position: center;
         }
         .pin-title { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: #d86b81; }
-        .pin-subtitle { font-size: 0.85rem; color: #e74c3c; margin-top: 5px; font-weight: 600; }
+        .pin-subtitle { font-size: 0.85rem; color: #e74c3c; margin-top: 5px; font-weight: 600; min-height: 20px; }
         
         .pin-dots { display: flex; justify-content: center; gap: 6px; margin: 20px 0; }
         .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #d86b81; }
@@ -53,8 +63,10 @@
             background: #fff; border: 1px solid #ffd1dc; padding: 12px; border-radius: 15px;
             font-size: 1.2rem; font-weight: 600; color: #d86b81; cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            user-select: none;
         }
         .key:active { transform: scale(0.95); }
+        .key.disabled { opacity: 0.5; pointer-events: none; }
 
         /* SCENA 2: CADOURILE */
         .gifts-grid { display: flex; justify-content: center; gap: 25px; margin-top: 40px; }
@@ -96,19 +108,21 @@
         .song-title { font-size: 1.1rem; font-weight: 600; color: #d86b81; margin-top: 10px; }
         .song-artist { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
 
-        /* BARA DE DERULARE (PROGRESS BAR) */
-        .progress-container {
+        /* BARA DE DERULARE SENSIVILĂ LA TOUCH */
+        .progress-wrapper {
             width: 100%;
-            margin: 15px 0 5px 0;
+            padding: 12px 0;
+            cursor: pointer;
+            touch-action: none;
         }
         .progress-bar {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: #ffd1dc;
             border-radius: 10px;
-            cursor: pointer;
             position: relative;
             overflow: hidden;
+            pointer-events: none;
         }
         .progress-fill {
             width: 0%;
@@ -162,7 +176,7 @@
                 <div class="dot" id="dot8"></div>
             </div>
             
-            <div class="keypad">
+            <div class="keypad" id="keypad">
                 <button class="key" onclick="pressKey(1)">1</button>
                 <button class="key" onclick="pressKey(2)">2</button>
                 <button class="key" onclick="pressKey(3)">3</button>
@@ -207,14 +221,14 @@
             <div class="song-artist">Leo de la Roșiori (Concert Evolution Live 2024)</div>
 
             <!-- BARA DE DERULARE -->
-            <div class="progress-container">
-                <div class="progress-bar" onclick="seekAudio(event)">
+            <div class="progress-wrapper" id="progress-wrapper" onclick="seekAudio(event)" ontouchstart="seekAudioTouch(event)" ontouchmove="seekAudioTouch(event)">
+                <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
-                <div class="time-stamps">
-                    <span id="current-time">0:00</span>
-                    <span id="total-duration">0:00</span>
-                </div>
+            </div>
+            <div class="time-stamps">
+                <span id="current-time">0:00</span>
+                <span id="total-duration">0:00</span>
             </div>
 
             <!-- CONTROALE PLAYER -->
@@ -226,7 +240,7 @@
 
             <p class="hint-text">Dă play de la minutul 1:00 🎵</p>
 
-            <audio id="audio-player" src="melodie.mp3"></audio>
+            <audio id="audio-player" src="melodie.mp3" preload="auto"></audio>
         </div>
     </div>
 
@@ -234,8 +248,22 @@
         const SECRET_PIN = "13102025";
         let enteredPIN = "";
         let attemptCount = 0;
+        let isInputLocked = false;
+
+        function setKeypadLocked(locked) {
+            isInputLocked = locked;
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                if (locked) {
+                    key.classList.add('disabled');
+                } else {
+                    key.classList.remove('disabled');
+                }
+            });
+        }
 
         function pressKey(num) {
+            if (isInputLocked) return;
             if (enteredPIN.length < 8) {
                 enteredPIN += num;
                 updateDots();
@@ -246,6 +274,7 @@
         }
 
         function clearPIN() {
+            if (isInputLocked) return;
             enteredPIN = "";
             updateDots();
         }
@@ -265,19 +294,20 @@
             attemptCount++;
 
             if (attemptCount === 1) {
-                alert("❌ Cod incorect! Mai ai doar 2 încercări!");
-                document.getElementById("pin-status").innerText = "⚠️ Mai ai 2 încercări!";
+                alert("❌ Cod incorect! Mai ai doar 1 încercare!");
+                document.getElementById("pin-status").innerText = "⚠️ Mai ai 1 încercare!";
                 clearPIN();
             } 
             else if (attemptCount === 2) {
-                alert("❌ Cod incorect! Cadourile s-au blocat și nu le mai poți accesa! 🔒\n\nSistemul ți-a oferit totuși încă 2 încercări de salvare.");
-                document.getElementById("pin-status").innerText = "⚠️ Cadouri blocate! Încercări de salvare: 2";
+                alert("❌ Cod incorect! Cadourile s-au blocat și nu le mai poți accesa! 🔒");
+                document.getElementById("pin-status").innerText = "";
                 clearPIN();
-            }
-            else if (attemptCount === 3) {
-                alert("❌ Cod incorect! Mai ai 1 singură încercare de salvare!");
-                document.getElementById("pin-status").innerText = "⚠️ Ultimul test! Bagă codul corect!";
-                clearPIN();
+                setKeypadLocked(true);
+
+                setTimeout(() => {
+                    document.getElementById("pin-status").innerText = "Sistemul ți-a oferit totuși încă 2 încercări de salvare.";
+                    setKeypadLocked(false);
+                }, 7000);
             }
             else {
                 if (enteredPIN === SECRET_PIN) {
@@ -290,7 +320,7 @@
             }
         }
 
-        /* LOGICĂ PLAYER MUZICAL ȘI BARA DE DERULARE */
+        /* LOGICĂ PLAYER MUZICAL ŞI DERULARE TOUCH */
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
         const vinyl = document.getElementById('vinyl-disk');
@@ -335,11 +365,26 @@
         });
 
         function seekAudio(event) {
-            const progressBar = event.currentTarget;
-            const clickPosition = event.clientX - progressBar.getBoundingClientRect().left;
-            const barWidth = progressBar.clientWidth;
-            const seekTime = (clickPosition / barWidth) * audio.duration;
-            audio.currentTime = seekTime;
+            const wrapper = document.getElementById('progress-wrapper');
+            const rect = wrapper.getBoundingClientRect();
+            const clickPosition = event.clientX - rect.left;
+            const barWidth = rect.width;
+            if (audio.duration) {
+                audio.currentTime = (clickPosition / barWidth) * audio.duration;
+            }
+        }
+
+        function seekAudioTouch(event) {
+            event.preventDefault();
+            const wrapper = document.getElementById('progress-wrapper');
+            const rect = wrapper.getBoundingClientRect();
+            const touch = event.touches[0];
+            let clickPosition = touch.clientX - rect.left;
+            if (clickPosition < 0) clickPosition = 0;
+            if (clickPosition > rect.width) clickPosition = rect.width;
+            if (audio.duration) {
+                audio.currentTime = (clickPosition / rect.width) * audio.duration;
+            }
         }
 
         function formatTime(seconds) {
@@ -347,6 +392,11 @@
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
+
+        // BLOCARE ZOOM PRIN GESTURI TACTILE
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
     </script>
 </body>
 </html>
