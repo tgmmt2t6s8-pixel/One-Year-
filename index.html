@@ -191,14 +191,14 @@
         /* ANIMAȚIE PLIC ȘI SCRISOARE */
         .envelope-container {
             position: relative;
-            margin-top: 60px;
+            margin-top: 80px;
         }
 
         .click-hint {
             font-size: 1.1rem;
             color: #d86b81;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             animation: bounce 1.5s infinite;
             transition: opacity 0.3s;
         }
@@ -220,7 +220,7 @@
             cursor: pointer;
         }
 
-        /* CLAPETA DE SUS (Peste bilet la început, se dă peste cap la deschidere) */
+        /* CLAPETA DE SUS (Închisă peste plic la început) */
         .envelope-flap {
             position: absolute;
             top: 0;
@@ -230,10 +230,10 @@
             border-top: 100px solid #e08b9d;
             transform-origin: top;
             transition: transform 0.5s ease;
-            z-index: 3;
+            z-index: 4;
         }
 
-        /* POCKET-UL DIN FAȚĂ */
+        /* CORPUL PLICULUI (FAȚĂ) */
         .envelope-pocket {
             position: absolute;
             bottom: 0;
@@ -243,25 +243,24 @@
             border-bottom: 90px solid #e8899e;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
-            z-index: 4;
+            z-index: 3;
         }
 
-        /* BILETUL (SCRISOAREA) */
+        /* BILETUL (SCRISOAREA) - COMPLET ASCUNSĂ ÎN PLIC INITIAL */
         .letter {
             position: absolute;
             bottom: 10px;
             left: 15px;
             width: 250px;
-            height: 220px;
+            height: 160px;
             background: #fff;
             border-radius: 8px;
             padding: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            /* Iese pe jumătate afară din plic de la început */
-            transform: translateY(-70px);
-            transition: transform 0.8s ease 0.4s, z-index 0.1s linear 0.4s, height 0.5s ease 0.8s;
-            z-index: 2; /* Stă în spatele clapetei la început */
-            overflow-y: auto;
+            transform: translateY(0);
+            transition: transform 0.8s ease 0.5s, z-index 0.1s linear 0.5s, height 0.5s ease 0.8s;
+            z-index: 2;
+            overflow: hidden;
             text-align: left;
         }
 
@@ -275,13 +274,14 @@
         /* STARE DESCHISĂ PLIC */
         .envelope-wrapper.open .envelope-flap {
             transform: rotateX(180deg);
-            z-index: 1; /* Treci clapeta în spate */
+            z-index: 1;
         }
 
         .envelope-wrapper.open .letter {
-            transform: translateY(-160px);
-            z-index: 5; /* Ridică biletul peste tot plicul */
+            transform: translateY(-150px);
+            z-index: 5;
             height: 270px;
+            overflow-y: auto;
         }
     </style>
 </head>
