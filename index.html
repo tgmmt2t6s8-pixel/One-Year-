@@ -191,15 +191,16 @@
         /* ANIMAȚIE PLIC ȘI SCRISOARE */
         .envelope-container {
             position: relative;
-            margin-top: 20px;
+            margin-top: 60px;
         }
 
         .click-hint {
             font-size: 1.1rem;
             color: #d86b81;
             font-weight: 600;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             animation: bounce 1.5s infinite;
+            transition: opacity 0.3s;
         }
 
         @keyframes bounce {
@@ -219,6 +220,7 @@
             cursor: pointer;
         }
 
+        /* CLAPETA DE SUS (Peste bilet la început, se dă peste cap la deschidere) */
         .envelope-flap {
             position: absolute;
             top: 0;
@@ -227,10 +229,11 @@
             border-right: 140px solid transparent;
             border-top: 100px solid #e08b9d;
             transform-origin: top;
-            transition: transform 0.6s ease 0.2s, z-index 0.2s ease 0.4s;
-            z-index: 4;
+            transition: transform 0.5s ease;
+            z-index: 3;
         }
 
+        /* POCKET-UL DIN FAȚĂ */
         .envelope-pocket {
             position: absolute;
             bottom: 0;
@@ -240,24 +243,24 @@
             border-bottom: 90px solid #e8899e;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
-            z-index: 3;
+            z-index: 4;
         }
 
-        /* BILETUL (SCRISOAREA) - SE VEDE PE JUMĂTATE ÎNATE DE DESCHIDERE */
+        /* BILETUL (SCRISOAREA) */
         .letter {
             position: absolute;
             bottom: 10px;
             left: 15px;
             width: 250px;
-            height: 230px;
+            height: 220px;
             background: #fff;
             border-radius: 8px;
             padding: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            /* Poziționare pe jumătate afară */
-            transform: translateY(-80px);
-            transition: transform 0.8s ease 0.5s, z-index 0.1s linear 0.5s, height 0.5s ease 0.8s;
-            z-index: 2;
+            /* Iese pe jumătate afară din plic de la început */
+            transform: translateY(-70px);
+            transition: transform 0.8s ease 0.4s, z-index 0.1s linear 0.4s, height 0.5s ease 0.8s;
+            z-index: 2; /* Stă în spatele clapetei la început */
             overflow-y: auto;
             text-align: left;
         }
@@ -272,19 +275,19 @@
         /* STARE DESCHISĂ PLIC */
         .envelope-wrapper.open .envelope-flap {
             transform: rotateX(180deg);
-            z-index: 1;
+            z-index: 1; /* Treci clapeta în spate */
         }
 
         .envelope-wrapper.open .letter {
             transform: translateY(-160px);
-            z-index: 5;
-            height: 280px;
+            z-index: 5; /* Ridică biletul peste tot plicul */
+            height: 270px;
         }
     </style>
 </head>
 <body>
 
-    <!-- BUTON PLUTITOR PENTRU MUZICĂ -->
+    <!-- BUTON FLOATING PENTRU MUZICĂ -->
     <div class="music-toggle-btn" id="floating-music-btn" onclick="toggleFloatingPlay()">🎵</div>
 
     <!-- SCENA 1: INTRODUCERE COD SECRET -->
@@ -344,14 +347,13 @@
 
     <!-- SCENA 3: SCRISOARE DE DRAGOSTE -->
     <div id="screen-letter" class="screen">
-        <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: #d86b81; margin-bottom: 15px;">Pentru sufletul meu ♥</h2>
+        <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: #d86b81;">Pentru sufletul meu ♥</h2>
         
         <div class="envelope-container">
             <p class="click-hint" id="envelope-hint">Deschide plicul ✨</p>
 
             <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
                 <div class="envelope-flap"></div>
-                <div class="envelope-pocket"></div>
                 <div class="letter">
                     <p>
                         Draga mea,<br><br>
@@ -359,6 +361,7 @@
                         Sunt nespus de fericit lângă tine și îți mulțumesc pentru tot ce ești. Te iubesc atât de mult și îmi doresc să scriem în continuare cele mai frumoase amintiri împreună! ♥
                     </p>
                 </div>
+                <div class="envelope-pocket"></div>
             </div>
         </div>
     </div>
