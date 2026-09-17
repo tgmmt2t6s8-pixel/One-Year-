@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Surpriză pentru Tine ♥</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Great+Vibes&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <style>
         * { 
             margin: 0; 
@@ -29,6 +29,30 @@
 
         .screen { display: none; width: 100%; max-width: 600px; padding: 20px; text-align: center; }
         .screen.active { display: block; }
+
+        /* BUTON FLOATING PENTRU MUZICĂ ÎN COLȚ */
+        .music-toggle-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            background: #d86b81;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 100;
+            border: 2px solid #fff;
+            transition: transform 0.2s;
+        }
+        .music-toggle-btn:active { transform: scale(0.9); }
+        .music-toggle-btn.playing { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(216, 107, 129, 0.7); } 70% { box-shadow: 0 0 0 12px rgba(216, 107, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(216, 107, 129, 0); } }
 
         /* SCENA 1: CODUL SECRET */
         .pin-container {
@@ -108,7 +132,6 @@
         .song-title { font-size: 1.1rem; font-weight: 600; color: #d86b81; margin-top: 10px; }
         .song-artist { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
 
-        /* BARA DE DERULARE SENSIVILĂ LA TOUCH */
         .progress-wrapper {
             width: 100%;
             padding: 12px 0;
@@ -151,9 +174,98 @@
         .btn-control:active { transform: scale(0.9); }
 
         .hint-text { font-size: 0.85rem; color: #b06d7b; font-style: italic; margin-top: 8px; font-weight: 600; }
+        
+        .btn-next-step {
+            margin-top: 15px;
+            background: #d86b81;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(216, 107, 129, 0.3);
+        }
+
+        /* ANIMAȚIE PLIC ȘI SCRISOARE */
+        .envelope-wrapper {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            background-color: #f7a8b8;
+            margin: 100px auto 0 auto;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            cursor: pointer;
+        }
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #e08b9d;
+            transform-origin: top;
+            transition: transform 0.5s ease 0.3s, z-index 0.2s ease 0.3s;
+            z-index: 4;
+        }
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-left: 140px solid #f397aa;
+            border-right: 140px solid #f397aa;
+            border-bottom: 90px solid #e8899e;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            z-index: 3;
+        }
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            width: 250px;
+            height: 230px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.6s ease 0.5s, z-index 0.1s linear 0.5s;
+            z-index: 2;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .letter p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            color: #4a3337;
+        }
+
+        /* STARE DESCHISĂ PLIC */
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        .envelope-wrapper.open .letter {
+            transform: translateY(-130px);
+            z-index: 5;
+            height: 270px;
+        }
+        .click-hint {
+            margin-top: 45px;
+            font-size: 0.9rem;
+            color: #d86b81;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
+
+    <!-- BUTON PLUTITOR PENTRU MUZICĂ -->
+    <div class="music-toggle-btn" id="floating-music-btn" onclick="toggleFloatingPlay()">🎵</div>
 
     <!-- SCENA 1: INTRODUCERE COD SECRET -->
     <div id="screen-pin" class="screen active">
@@ -210,6 +322,25 @@
         </div>
     </div>
 
+    <!-- SCENA 3: SCRISOARE DE DRAGOSTE -->
+    <div id="screen-letter" class="screen">
+        <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: #d86b81;">Pentru sufletul meu ♥</h2>
+        
+        <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+            <div class="envelope-flap"></div>
+            <div class="envelope-pocket"></div>
+            <div class="letter">
+                <p>
+                    Draga mea,<br><br>
+                    Privind în urmă, îmi dau seama cât de departe am ajuns amândoi. Am avut parte de momente absolut minunate unul lângă celălalt, pline de zâmbete și bucurie, dar am trecut împreună și prin momente grele. Cu toate acestea, am ales de fiecare dată să rămânem unul lângă altul și să depășim orice obstacol.<br><br>
+                    Sunt nespus de fericit lângă tine și îți mulțumesc pentru tot ce ești. Te iubesc atât de mult și îmi doresc să scriem în continuare cele mai frumoase amintiri impreună! ♥
+                </p>
+            </div>
+        </div>
+        
+        <p class="click-hint" id="envelope-hint">Apasă pe plic pentru a deschide scrisoarea ✨</p>
+    </div>
+
     <!-- MODAL: PLAYER MUZICĂ -->
     <div id="modal-music" class="modal">
         <div class="modal-content">
@@ -220,7 +351,6 @@
             <div class="song-title">Dacă tu n-ai fi</div>
             <div class="song-artist">Leo de la Roșiori (Concert Evolution Live 2024)</div>
 
-            <!-- BARA DE DERULARE -->
             <div class="progress-wrapper" id="progress-wrapper" onclick="seekAudio(event)" ontouchstart="seekAudioTouch(event)" ontouchmove="seekAudioTouch(event)">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
@@ -231,7 +361,6 @@
                 <span id="total-duration">0:00</span>
             </div>
 
-            <!-- CONTROALE PLAYER -->
             <div class="player-controls">
                 <button class="btn-control" onclick="skipTime(-10)">-10s</button>
                 <button class="btn-control play-btn" id="play-btn" onclick="togglePlay()">▶</button>
@@ -239,6 +368,8 @@
             </div>
 
             <p class="hint-text">Dă play de la minutul 1:00 🎵</p>
+
+            <button class="btn-next-step" onclick="goToLetter()">Următorul pas ➔</button>
 
             <audio id="audio-player" src="melodie.mp3" preload="auto"></audio>
         </div>
@@ -320,9 +451,10 @@
             }
         }
 
-        /* LOGICĂ PLAYER MUZICAL ŞI DERULARE TOUCH */
+        /* PLAYER MUZICAL ȘI BUTON FLOATING */
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
+        const floatingMusicBtn = document.getElementById('floating-music-btn');
         const vinyl = document.getElementById('vinyl-disk');
         const progressFill = document.getElementById('progress-fill');
         const currentTimeEl = document.getElementById('current-time');
@@ -334,19 +466,32 @@
 
         function closeMusicModal() {
             document.getElementById('modal-music').classList.remove('active');
-            audio.pause();
-            playBtn.innerText = "▶";
-            vinyl.classList.remove('spinning');
         }
 
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
-                playBtn.innerText = "⏸";
-                vinyl.classList.add('spinning');
+                updateMusicUI(true);
             } else {
                 audio.pause();
+                updateMusicUI(false);
+            }
+        }
+
+        function toggleFloatingPlay() {
+            togglePlay();
+        }
+
+        function updateMusicUI(isPlaying) {
+            if (isPlaying) {
+                playBtn.innerText = "⏸";
+                floatingMusicBtn.innerText = "🔊";
+                floatingMusicBtn.classList.add('playing');
+                vinyl.classList.add('spinning');
+            } else {
                 playBtn.innerText = "▶";
+                floatingMusicBtn.innerText = "🎵";
+                floatingMusicBtn.classList.remove('playing');
                 vinyl.classList.remove('spinning');
             }
         }
@@ -393,7 +538,20 @@
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // BLOCARE ZOOM PRIN GESTURI TACTILE
+        /* TRECERE LA SCRISOARE */
+        function goToLetter() {
+            closeMusicModal();
+            document.getElementById('screen-gifts').classList.remove('active');
+            document.getElementById('screen-letter').classList.add('active');
+        }
+
+        function openEnvelope() {
+            const envelope = document.getElementById('envelope');
+            envelope.classList.add('open');
+            document.getElementById('envelope-hint').style.display = 'none';
+        }
+
+        // BLOCARE ZOOM
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
