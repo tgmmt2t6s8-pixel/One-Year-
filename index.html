@@ -3,38 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
+    <title>Surpriză pentru Tine ♥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="player-card">
-        <div class="vinyl-container">
-            <div class="vinyl" id="vinyl">
-                <div class="vinyl-label"></div>
+
+    <!-- SCENA 1: INTRODUCERE COD SECRET -->
+    <div id="screen-pin" class="screen active">
+        <div class="pin-container">
+            <div class="pin-header">
+                <div class="photo-frame" style="background-image: url('https://via.placeholder.com/100');"></div>
+                <div class="photo-frame" style="background-image: url('https://via.placeholder.com/100');"></div>
+            </div>
+            <h2 class="pin-title">Enter our secret code ♥</h2>
+            <p class="pin-subtitle" id="pin-status">⚠️ Introdu codul secret pentru deblocare</p>
+            
+            <div class="pin-dots">
+                <div class="dot" id="dot1"></div>
+                <div class="dot" id="dot2"></div>
+                <div class="dot" id="dot3"></div>
+                <div class="dot" id="dot4"></div>
+                <div class="dot" id="dot5"></div>
+                <div class="dot" id="dot6"></div>
+                <div class="dot" id="dot7"></div>
+                <div class="dot" id="dot8"></div>
+            </div>
+            
+            <div class="keypad">
+                <button class="key" onclick="pressKey(1)">1</button>
+                <button class="key" onclick="pressKey(2)">2</button>
+                <button class="key" onclick="pressKey(3)">3</button>
+                <button class="key" onclick="pressKey(4)">4</button>
+                <button class="key" onclick="pressKey(5)">5</button>
+                <button class="key" onclick="pressKey(6)">6</button>
+                <button class="key" onclick="pressKey(7)">7</button>
+                <button class="key" onclick="pressKey(8)">8</button>
+                <button class="key" onclick="pressKey(9)">9</button>
+                <button class="key" onclick="clearPIN()">⌫</button>
+                <button class="key" onclick="pressKey(0)">0</button>
             </div>
         </div>
+    </div>
 
-        <div class="song-details">
-            <h2 class="title">Nume Melodie</h2>
-            <p class="artist">Nume Artist</p>
+    <!-- SCENA 2: CADOURILE -->
+    <div id="screen-gifts" class="screen">
+        <h1 style="font-family: 'Great Vibes', cursive; font-size: 3rem; color: #d86b81;">You unlocked it!</h1>
+        <p style="color: #888;">Alege un cadou ♥</p>
+        
+        <div class="gifts-grid">
+            <div class="gift-box" onclick="openMusicModal()">
+                <div class="gift-icon">🎁</div>
+            </div>
+            <div class="gift-box" onclick="openMusicModal()">
+                <div class="gift-icon">🎁</div>
+            </div>
+            <div class="gift-box" onclick="openMusicModal()">
+                <div class="gift-icon">🎁</div>
+            </div>
         </div>
+    </div>
 
-        <audio id="audio-player" src="melodie.mp3"></audio>
+    <!-- MODAL: PLAYER MUZICĂ -->
+    <div id="modal-music" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeMusicModal()">&times;</span>
+            
+            <div class="vinyl" id="vinyl-disk"><div class="vinyl-inner"></div></div>
+            
+            <div class="song-title">Dacă tu n-ai fi</div>
+            <div class="song-artist">Leo de la Roșiori (Concert Evolution Live 2024)</div>
 
-        <div class="progress-container" id="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
+            <!-- BARA DE DERULARE -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="time-stamps">
+                    <span id="current-time">0:00</span>
+                    <span id="total-duration">0:00</span>
+                </div>
+            </div>
 
-        <div class="time-container">
-            <span id="current-time">0:00</span>
-            <span id="duration">0:00</span>
-        </div>
+            <!-- CONTROALE PLAYER -->
+            <div class="player-controls">
+                <button class="btn-control" onclick="skipTime(-10)">-10s</button>
+                <button class="btn-control play-btn" id="play-btn" onclick="togglePlay()">▶</button>
+                <button class="btn-control" onclick="skipTime(10)">+10s</button>
+            </div>
 
-        <div class="controls">
-            <button class="btn" id="prev"><i class="fas fa-backward"></i></button>
-            <button class="btn play-btn" id="play"><i class="fas fa-play" id="play-icon"></i></button>
-            <button class="btn" id="next"><i class="fas fa-forward"></i></button>
+            <p class="hint-text">Dă play de la minutul 1:00 🎵</p>
+
+            <audio id="audio-player" src="melodie.mp3"></audio>
         </div>
     </div>
 
