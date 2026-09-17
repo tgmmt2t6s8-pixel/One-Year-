@@ -188,7 +188,7 @@
             box-shadow: 0 4px 10px rgba(216, 107, 129, 0.3);
         }
 
-        /* ANIMAȚIE PLIC ȘI SCRISOARE FIXATE */
+        /* ANIMAȚIE PLIC REALA ȘI COMPLET ÎNCHISĂ */
         .envelope-container {
             position: relative;
             margin-top: 60px;
@@ -214,62 +214,27 @@
             height: 180px;
             background-color: #e28296;
             margin: 0 auto;
-            border-radius: 6px;
+            border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             cursor: pointer;
         }
 
-        /* CLAPETA DE SUS (Închide complet plicul) */
-        .envelope-flap {
+        /* PARTEA DIN SPATE A PLICULUI */
+        .envelope-back {
             position: absolute;
             top: 0;
             left: 0;
-            border-left: 140px solid transparent;
-            border-right: 140px solid transparent;
-            border-top: 100px solid #d47388;
-            transform-origin: top;
-            transition: transform 0.5s ease 0.1s, z-index 0.2s;
-            z-index: 5;
+            width: 100%;
+            height: 100%;
+            background-color: #d47388;
+            border-radius: 8px;
+            z-index: 1;
         }
 
-        /* MARGINILE LATERALE (STÂNGA / DREAPTA) */
-        .envelope-left {
-            position: absolute;
-            top: 0;
-            left: 0;
-            border-top: 90px solid transparent;
-            border-bottom: 90px solid transparent;
-            border-left: 140px solid #eb8ea2;
-            z-index: 3;
-        }
-
-        .envelope-right {
-            position: absolute;
-            top: 0;
-            right: 0;
-            border-top: 90px solid transparent;
-            border-bottom: 90px solid transparent;
-            border-right: 140px solid #eb8ea2;
-            z-index: 3;
-        }
-
-        /* TRIUNGHIUL DE JOS */
-        .envelope-pocket {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            border-left: 140px solid transparent;
-            border-right: 140px solid transparent;
-            border-bottom: 100px solid #e07d92;
-            border-bottom-left-radius: 6px;
-            border-bottom-right-radius: 6px;
-            z-index: 4;
-        }
-
-        /* BILETUL (SCRISOAREA) - COMPLET ASCUNSĂ ÎN PLIC */
+        /* BILETUL - COMPLET ÎNĂUNTRU LA ÎNCEPUT */
         .letter {
             position: absolute;
-            bottom: 5px;
+            bottom: 10px;
             left: 15px;
             width: 250px;
             height: 160px;
@@ -278,7 +243,7 @@
             padding: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             transform: translateY(0);
-            transition: transform 0.7s ease 0.4s, z-index 0.1s linear 0.4s, height 0.4s ease 0.8s;
+            transition: transform 0.8s ease 0.4s, z-index 0.1s linear 0.4s, height 0.4s ease 0.8s;
             z-index: 2;
             overflow: hidden;
             text-align: left;
@@ -291,6 +256,37 @@
             color: #4a3337;
         }
 
+        /* PERETELE DIN FAȚĂ (BUZUNARUL PLICULUI) */
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 140px solid #e07d92;
+            border-right: 140px solid #e07d92;
+            border-top: 95px solid transparent;
+            border-bottom: 85px solid #d86f85;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            z-index: 3;
+        }
+
+        /* CLAPETA DIN SUPERIOARĂ (ÎNCHIDE PLICUL PESTE BUZUNAR) */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 105px solid #c86379;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 4;
+        }
+
         /* STARE DESCHISĂ PLIC */
         .envelope-wrapper.open .envelope-flap {
             transform: rotateX(180deg);
@@ -299,7 +295,7 @@
 
         .envelope-wrapper.open .letter {
             transform: translateY(-160px);
-            z-index: 6;
+            z-index: 5;
             height: 280px;
             overflow-y: auto;
         }
@@ -373,9 +369,7 @@
             <p class="click-hint" id="envelope-hint">Deschide plicul ✨</p>
 
             <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
-                <div class="envelope-flap"></div>
-                <div class="envelope-left"></div>
-                <div class="envelope-right"></div>
+                <div class="envelope-back"></div>
                 <div class="letter">
                     <p>
                         Draga mea,<br><br>
@@ -384,6 +378,7 @@
                     </p>
                 </div>
                 <div class="envelope-pocket"></div>
+                <div class="envelope-flap"></div>
             </div>
         </div>
     </div>
