@@ -25,6 +25,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background-color 1s ease, color 1s ease;
+        }
+
+        /* TEMA "LOVE DARK MODE" (SE ACTIVEAZĂ LA FINAL) */
+        body.love-dark-mode {
+            background-color: #1a080c;
+            color: #ffd1dc;
         }
 
         .screen { display: none; width: 100%; max-width: 600px; padding: 20px; text-align: center; }
@@ -53,6 +60,35 @@
         .music-toggle-btn:active { transform: scale(0.9); }
         .music-toggle-btn.playing { animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(216, 107, 129, 0.7); } 70% { box-shadow: 0 0 0 12px rgba(216, 107, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(216, 107, 129, 0); } }
+
+        /* ECRANUL 0: REGULILE */
+        .rules-card {
+            background: #fff5f7;
+            padding: 30px 20px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(216, 107, 129, 0.15);
+            text-align: center;
+        }
+        .rules-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #d86b81;
+            margin-bottom: 15px;
+        }
+        .rules-list {
+            list-style: none;
+            margin: 20px 0;
+            text-align: left;
+            display: inline-block;
+        }
+        .rules-list li {
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6a4a50;
+        }
 
         /* SCENA 1: CODUL SECRET */
         .pin-container {
@@ -115,6 +151,7 @@
             background: #fff; padding: 30px; border-radius: 25px; max-width: 450px; width: 90%;
             position: relative; animation: popIn 0.3s ease; text-align: center;
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            color: #5a3e43;
         }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #aaa; }
@@ -180,18 +217,20 @@
             background: #d86b81;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 20px;
             font-weight: 600;
             font-size: 0.95rem;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(216, 107, 129, 0.3);
+            transition: transform 0.2s;
         }
+        .btn-next-step:active { transform: scale(0.95); }
 
         /* ANIMAȚIE PLIC REALA ȘI COMPLET ÎNCHISĂ */
         .envelope-container {
             position: relative;
-            margin-top: 60px;
+            margin-top: 50px;
         }
 
         .click-hint {
@@ -219,7 +258,6 @@
             cursor: pointer;
         }
 
-        /* PARTEA DIN SPATE A PLICULUI */
         .envelope-back {
             position: absolute;
             top: 0;
@@ -231,7 +269,6 @@
             z-index: 1;
         }
 
-        /* BILETUL - COMPLET ÎNĂUNTRU LA ÎNCEPUT */
         .letter {
             position: absolute;
             bottom: 10px;
@@ -256,7 +293,6 @@
             color: #4a3337;
         }
 
-        /* PERETELE DIN FAȚĂ (BUZUNARUL PLICULUI) */
         .envelope-pocket {
             position: absolute;
             bottom: 0;
@@ -272,7 +308,6 @@
             z-index: 3;
         }
 
-        /* CLAPETA DIN SUPERIOARĂ (ÎNCHIDE PLICUL PESTE BUZUNAR) */
         .envelope-flap {
             position: absolute;
             top: 0;
@@ -287,7 +322,6 @@
             z-index: 4;
         }
 
-        /* STARE DESCHISĂ PLIC */
         .envelope-wrapper.open .envelope-flap {
             transform: rotateX(180deg);
             z-index: 1;
@@ -299,6 +333,41 @@
             height: 280px;
             overflow-y: auto;
         }
+
+        /* TEMA LOVE & DARK MODE / MESAJ FINAL */
+        .dark-mode-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            padding: 35px 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+        }
+        .dark-mode-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #ff8da1;
+            margin-bottom: 15px;
+        }
+        .dark-mode-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ffd1dc;
+        }
+
+        /* INIMIOARE PLUTITOARE PENTRU TEMA LOVE */
+        .floating-heart {
+            position: fixed;
+            color: #ff4d6d;
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 99;
+            animation: floatUp 4s linear forwards;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -306,8 +375,22 @@
     <!-- BUTON FLOATING PENTRU MUZICĂ -->
     <div class="music-toggle-btn" id="floating-music-btn" onclick="toggleFloatingPlay()">🎵</div>
 
+    <!-- ECRANUL 0: REGULI -->
+    <div id="screen-rules" class="screen active">
+        <div class="rules-card">
+            <h1 class="rules-title">Reguli importante ♥</h1>
+            <ul class="rules-list">
+                <li>📌 <b>1.</b> Zâmbește înainte să începi!</li>
+                <li>🔊 <b>2.</b> Asigură-te că ai volumul pornit.</li>
+                <li>🤫 <b>3.</b> Codul este o dată specială doar a noastră.</li>
+                <li>💌 <b>4.</b> Citește totul cu atenție până la capăt.</li>
+            </ul>
+            <button class="btn-next-step" onclick="goToPinScreen()">Am înțeles ➔</button>
+        </div>
+    </div>
+
     <!-- SCENA 1: INTRODUCERE COD SECRET -->
-    <div id="screen-pin" class="screen active">
+    <div id="screen-pin" class="screen">
         <div class="pin-container">
             <div class="pin-header">
                 <div class="photo-frame" style="background-image: url('https://via.placeholder.com/100');"></div>
@@ -381,6 +464,19 @@
                 <div class="envelope-flap"></div>
             </div>
         </div>
+
+        <button class="btn-next-step" id="btn-finish-letter" style="display: none; margin-top: 30px;" onclick="enableLoveDarkMode()">Gata de citit ✨</button>
+    </div>
+
+    <!-- ECRANUL FINAL: LOVE DARK MODE -->
+    <div id="screen-love-theme" class="screen">
+        <div class="dark-mode-card">
+            <h1 class="dark-mode-title">Te doare ochii, hmm? Na, schimba tema! 🌙</h1>
+            <p class="dark-mode-text">
+                Am trecut pe **Tema Love** special pentru tine, să fie mai odihnitor pentru ochișorii tăi frumoși. <br><br>
+                Să nu uiți niciodată cât de mult te iubesc și cât de mult însemni pentru mine! ♥
+            </p>
+        </div>
     </div>
 
     <!-- MODAL: PLAYER MUZICĂ -->
@@ -422,6 +518,12 @@
         let enteredPIN = "";
         let attemptCount = 0;
         let isInputLocked = false;
+
+        /* TRECERE DE LA REGULI LA PIN */
+        function goToPinScreen() {
+            document.getElementById('screen-rules').classList.remove('active');
+            document.getElementById('screen-pin').classList.add('active');
+        }
 
         function setKeypadLocked(locked) {
             isInputLocked = locked;
@@ -591,6 +693,32 @@
             const envelope = document.getElementById('envelope');
             envelope.classList.add('open');
             document.getElementById('envelope-hint').style.opacity = '0';
+            
+            // Afișează butonul pentru tema întunecată
+            setTimeout(() => {
+                document.getElementById('btn-finish-letter').style.display = 'inline-block';
+            }, 1000);
+        }
+
+        /* ACTIVARE TEMA "LOVE DARK MODE" CU INIMIOARE */
+        function enableLoveDarkMode() {
+            document.body.classList.add('love-dark-mode');
+            document.getElementById('screen-letter').classList.remove('active');
+            document.getElementById('screen-love-theme').classList.add('active');
+
+            // Generează inimioare plutitoare
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerText = '♥';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }, 300);
         }
 
         // BLOCARE ZOOM
