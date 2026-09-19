@@ -83,11 +83,12 @@
         }
         .rules-list li {
             font-size: 1.05rem;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             gap: 10px;
             color: #6a4a50;
+            line-height: 1.3;
         }
 
         /* SCENA 1: CODUL SECRET */
@@ -213,17 +214,17 @@
         .hint-text { font-size: 0.85rem; color: #b06d7b; font-style: italic; margin-top: 8px; font-weight: 600; }
         
         .btn-next-step {
-            margin-top: 15px;
+            margin-top: 20px;
             background: #d86b81;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 12px 28px;
             border-radius: 20px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(216, 107, 129, 0.3);
-            transition: transform 0.2s;
+            transition: transform 0.2s, background-color 0.3s;
         }
         .btn-next-step:active { transform: scale(0.95); }
 
@@ -334,24 +335,40 @@
             overflow-y: auto;
         }
 
-        /* TEMA LOVE & DARK MODE / MESAJ FINAL */
-        .dark-mode-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 182, 193, 0.2);
+        /* ECRAN PRE-SCHIMBARE TEMĂ & TEMA LOVE DARK MODE */
+        .theme-card {
+            background: #fff5f7;
             padding: 35px 20px;
             border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(216, 107, 129, 0.15);
+            transition: background 1s ease, border-color 1s ease;
+        }
+
+        body.love-dark-mode .theme-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 182, 193, 0.2);
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             backdrop-filter: blur(10px);
         }
-        .dark-mode-title {
+
+        .theme-title {
             font-family: 'Great Vibes', cursive;
             font-size: 3rem;
-            color: #ff8da1;
+            color: #d86b81;
             margin-bottom: 15px;
         }
-        .dark-mode-text {
+
+        body.love-dark-mode .theme-title {
+            color: #ff8da1;
+        }
+
+        .theme-text {
             font-size: 1.1rem;
             line-height: 1.6;
+            color: #5a3e43;
+        }
+
+        body.love-dark-mode .theme-text {
             color: #ffd1dc;
         }
 
@@ -380,11 +397,12 @@
         <div class="rules-card">
             <h1 class="rules-title">Reguli importante ♥</h1>
             <ul class="rules-list">
-                <li>📌 <b>1.</b> Zâmbește înainte să începi!</li>
-                <li>🔊 <b>2.</b> Asigură-te că ai volumul pornit.</li>
-                <li>🤫 <b>3.</b> Codul este o dată specială doar a noastră.</li>
-                <li>💌 <b>4.</b> Citește totul cu atenție până la capăt.</li>
+                <li>💡 <b>1.</b> Setează luminozitatea ecranului la maxim.</li>
+                <li>🔊 <b>2.</b> Setează volumul telefonului la un sfert.</li>
+                <li>😊 <b>3.</b> Zâmbește înainte să începi!</li>
+                <li>✨ <b>4.</b> Fii foarte atentă la tot ce va urma...</li>
             </ul>
+            <br>
             <button class="btn-next-step" onclick="goToPinScreen()">Am înțeles ➔</button>
         </div>
     </div>
@@ -465,17 +483,17 @@
             </div>
         </div>
 
-        <button class="btn-next-step" id="btn-finish-letter" style="display: none; margin-top: 30px;" onclick="enableLoveDarkMode()">Gata de citit ✨</button>
+        <button class="btn-next-step" id="btn-finish-letter" style="display: none; margin-top: 35px;" onclick="goToThemePrompt()">Next ➔</button>
     </div>
 
-    <!-- ECRANUL FINAL: LOVE DARK MODE -->
-    <div id="screen-love-theme" class="screen">
-        <div class="dark-mode-card">
-            <h1 class="dark-mode-title">Te doare ochii, hmm? Na, schimba tema! 🌙</h1>
-            <p class="dark-mode-text">
-                Am trecut pe **Tema Love** special pentru tine, să fie mai odihnitor pentru ochișorii tăi frumoși. <br><br>
-                Să nu uiți niciodată cât de mult te iubesc și cât de mult însemni pentru mine! ♥
+    <!-- ECRANUL FINAL: MESAJ TEMA & SCHIMBARE TEMĂ -->
+    <div id="screen-theme-prompt" class="screen">
+        <div class="theme-card">
+            <h1 class="theme-title" id="theme-card-title">Te doare ochii, hmm? Na, schimba tema! 🌙</h1>
+            <p class="theme-text" id="theme-card-text">
+                Apasă pe butonul de mai jos pentru a trece pe **Tema Love**, creată special pentru tine, să fie mai odihnitor pentru ochișorii tăi frumoși! ♥
             </p>
+            <button class="btn-next-step" id="btn-change-theme" onclick="applyLoveTheme()">Schimbă tema ✨</button>
         </div>
     </div>
 
@@ -507,7 +525,7 @@
 
             <p class="hint-text">Dă play de la minutul 1:00 🎵</p>
 
-            <button class="btn-next-step" onclick="goToLetter()">Următorul pas ➔</button>
+            <button class="btn-next-step" onclick="goToLetter()">Next ➔</button>
 
             <audio id="audio-player" src="melodie.mp3" preload="auto"></audio>
         </div>
@@ -694,19 +712,27 @@
             envelope.classList.add('open');
             document.getElementById('envelope-hint').style.opacity = '0';
             
-            // Afișează butonul pentru tema întunecată
+            // Afișează butonul "Next" pentru scrisoarea citită
             setTimeout(() => {
                 document.getElementById('btn-finish-letter').style.display = 'inline-block';
             }, 1000);
         }
 
-        /* ACTIVARE TEMA "LOVE DARK MODE" CU INIMIOARE */
-        function enableLoveDarkMode() {
-            document.body.classList.add('love-dark-mode');
+        /* TRECERE LA ECRANUL PROMPT PENTRU TEMĂ */
+        function goToThemePrompt() {
             document.getElementById('screen-letter').classList.remove('active');
-            document.getElementById('screen-love-theme').classList.add('active');
+            document.getElementById('screen-theme-prompt').classList.add('active');
+        }
 
-            // Generează inimioare plutitoare
+        /* APLICARE TEMA LOVE DARK MODE */
+        function applyLoveTheme() {
+            document.body.classList.add('love-dark-mode');
+            
+            // Schimbăm textul și ascundem butonul
+            document.getElementById('theme-card-text').innerHTML = "Acum totul este perfect! Să nu uiți niciodată cât de mult te iubesc și cât de mult însemni pentru mine! ♥";
+            document.getElementById('btn-change-theme').style.display = 'none';
+
+            // Pornește animația cu inimioarele plutitoare
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.classList.add('floating-heart');
