@@ -106,17 +106,18 @@
         }
         .pin-header {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
             margin-bottom: 20px;
         }
-        .photo-frame {
-            width: 80px;
-            height: 80px;
+        .photo-frame-single {
+            width: 100px;
+            height: 100px;
             border: 4px solid #ffb6c1;
             border-radius: 50%;
             background-size: cover;
             background-position: center;
+            box-shadow: 0 4px 15px rgba(216, 107, 129, 0.3);
         }
         .pin-title { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: #d86b81; }
         .pin-subtitle { font-size: 0.85rem; color: #e74c3c; margin-top: 5px; font-weight: 600; min-height: 20px; }
@@ -377,8 +378,7 @@
     <div id="screen-pin" class="screen">
         <div class="pin-container">
             <div class="pin-header">
-                <div class="photo-frame" style="background-image: url('IMG_3844.jpeg');"></div>
-                <div class="photo-frame" style="background-image: url('IMG_3853.jpeg');"></div>
+                <div class="photo-frame-single" id="pin-photo-single"></div>
             </div>
             <h2 class="pin-title">Enter our secret code ♥</h2>
             <p class="pin-subtitle" id="pin-status">⚠️ Introdu codul secret pentru deblocare</p>
@@ -412,4 +412,349 @@
 
     <!-- SCENA 2: CADOURILE -->
     <div id="screen-gifts" class="screen">
-        <h1 style="font-family: 'Great Vibes', cursive; font-size: 3rem; color: #d86b81
+        <h1 style="font-family: 'Great Vibes', cursive; font-size: 3rem; color: #d86b81;">You unlocked it!</h1>
+        <p style="color: #888;">Alege un cadou ♥</p>
+        
+        <div class="gifts-grid">
+            <div class="gift-box" onclick="openMusicModal()">
+                <div class="gift-icon">🎁</div>
+            </div>
+            <div class="gift-box" onclick="openMusicModal()">
+                <div class="gift-icon">🎁</div>
+            </div>
+            <div class="gift-box" onclick="openMusicModal()">
+                <div class="gift-icon">🎁</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCENA 3: SCRISOARE DE DRAGOSTE -->
+    <div id="screen-letter" class="screen">
+        <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: #d86b81;">Pentru sufletul meu ♥</h2>
+        
+        <div class="envelope-container">
+            <p class="click-hint" id="envelope-hint">Deschide plicul ✨</p>
+
+            <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+                <div class="envelope-back"></div>
+                <div class="letter">
+                    <p>
+                        Draga mea,<br><br>
+                        Privind în urmă, îmi dau seama cât de departe am ajuns amândoi. Am avut parte de momente absolut minunate unul lângă celălalt, pline de zâmbete și bucurie, dar am trecut împreună și prin momente grele. Cu toate acestea, am ales de fiecare dată să rămânem unul lângă altul și să depășim orice obstacol.<br><br>
+                        Sunt nespus de fericit lângă tine și îți mulțumesc pentru tot ce ești. Te iubesc atât de mult și îmi doresc să scriem în continuare cele mai frumoase amintiri împreună! ♥
+                    </p>
+                </div>
+                <div class="envelope-pocket"></div>
+                <div class="envelope-flap"></div>
+            </div>
+        </div>
+
+        <button class="btn-next-step" id="btn-finish-letter" style="display: none; margin-top: 35px;" onclick="goToThemePrompt()">Next ➔</button>
+    </div>
+
+    <!-- ECRANUL PROMPT TEMA -->
+    <div id="screen-theme-prompt" class="screen">
+        <div class="theme-card">
+            <h1 class="theme-title" id="theme-card-title">Te doare ochii, hmm? Na, schimba tema! 🌙</h1>
+            <p class="theme-text" id="theme-card-text">
+                Apasă pe butonul de mai jos pentru a trece pe **Tema Love**, creată special pentru tine, să fie mai odihnitor pentru ochișorii tăi frumoși! ♥
+            </p>
+            <button class="btn-next-step" id="btn-change-theme" onclick="applyLoveTheme()">Schimbă tema ✨</button>
+            <button class="btn-next-step" id="btn-after-theme-next" style="display: none; margin-top: 20px;" onclick="goToGallery()">Vezi amintirile noastre ➔</button>
+        </div>
+    </div>
+
+    <!-- ECRAN NOU: GALERIA FOTO -->
+    <div id="screen-gallery" class="screen">
+        <div class="theme-card">
+            <h1 class="theme-title">Amintirile Noastre ♥</h1>
+            <p class="theme-text" style="font-size: 0.95rem;">Un an plin de clipe de neuitat alături de tine...</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-card"><img id="g-img-1" alt="Amintire 1"><div class="gallery-caption">Râsete și momente nebune 🤪</div></div>
+                <div class="gallery-card"><img id="g-img-2" alt="Amintire 2"><div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div></div>
+                <div class="gallery-card"><img id="g-img-3" alt="Amintire 3"><div class="gallery-caption">Lângă tine în fiecare seară 🌙</div></div>
+                <div class="gallery-card"><img id="g-img-4" alt="Amintire 4"><div class="gallery-caption">Plimbările noastre drage 🌿</div></div>
+                <div class="gallery-card"><img id="g-img-5" alt="Amintire 5"><div class="gallery-caption">Vibe-ul nostru unic ✌️</div></div>
+                <div class="gallery-card"><img id="g-img-6" alt="Amintire 6"><div class="gallery-caption">Săruturi dulci 💋</div></div>
+                <div class="gallery-card"><img id="g-img-7" alt="Amintire 7"><div class="gallery-caption">Cea mai frumoasă zi ☀️</div></div>
+                <div class="gallery-card"><img id="g-img-8" alt="Amintire 8"><div class="gallery-caption">Iubirea mea pură ♥</div></div>
+                <div class="gallery-card"><img id="g-img-9" alt="Amintire 9"><div class="gallery-caption">Pentru totdeauna noi doi 💑</div></div>
+                <div class="gallery-card"><img id="g-img-10" alt="Amintire 10"><div class="gallery-caption">Strânși în brațe ca în prima zi 🤗</div></div>
+            </div>
+
+            <button class="btn-next-step" onclick="goToFinalScreen()">Ultimul mesaj ➔</button>
+        </div>
+    </div>
+
+    <!-- ECRAN FINAL: LA MULȚI ANI DE 1 AN! -->
+    <div id="screen-final" class="screen">
+        <div class="theme-card">
+            <h1 class="theme-title" style="font-size: 3.2rem; color: #ff8da1;">La Mulți Ani, Iubirea Mea! 🎉</h1>
+            <p class="theme-text" style="font-size: 1.2rem; line-height: 1.8; margin: 20px 0;">
+                A trecut <b>1 an întreg</b> plin de momente minunate, râsete și clipe speciale de când suntem împreună. <br><br>
+                Îți mulțumesc că faci fiecare zi mai frumoasă și că îmi ești alături! Ești cea mai importantă persoană pentru mine și te iubesc din ce în ce mai mult cu fiecare zi! ♥
+            </p>
+            <div style="font-size: 2.5rem; margin-top: 15px;">🥂💖👑</div>
+        </div>
+    </div>
+
+    <!-- MODAL: PLAYER MUZICĂ -->
+    <div id="modal-music" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeMusicModal()">&times;</span>
+            
+            <div class="vinyl" id="vinyl-disk"><div class="vinyl-inner"></div></div>
+            
+            <div class="song-title">Dacă tu n-ai fi</div>
+            <div class="song-artist">Leo de la Roșiori (Concert Evolution Live 2024)</div>
+
+            <div class="progress-wrapper" id="progress-wrapper" onclick="seekAudio(event)" ontouchstart="seekAudioTouch(event)" ontouchmove="seekAudioTouch(event)">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            <div class="time-stamps">
+                <span id="current-time">0:00</span>
+                <span id="total-duration">0:00</span>
+            </div>
+
+            <div class="player-controls">
+                <button class="btn-control" onclick="skipTime(-10)">-10s</button>
+                <button class="btn-control play-btn" id="play-btn" onclick="togglePlay()">▶</button>
+                <button class="btn-control" onclick="skipTime(10)">+10s</button>
+            </div>
+
+            <p class="hint-text">Dă play de la minutul 1:00 🎵</p>
+
+            <button class="btn-next-step" onclick="goToLetter()">Next ➔</button>
+
+            <audio id="audio-player" src="melodie.mp3" preload="auto"></audio>
+        </div>
+    </div>
+
+    <script>
+        const imageNumbers = [3844, 3845, 3846, 3847, 3848, 3849, 3850, 3851, 3852, 3853];
+
+        function autoLoadImages() {
+            // Pune o singura poză cu voi în ramă (ultima poza - IMG_3853)
+            const singleFrame = document.getElementById('pin-photo-single');
+            if (singleFrame) {
+                singleFrame.style.backgroundImage = "url('IMG_3853.jpeg')";
+            }
+
+            imageNumbers.forEach((num, index) => {
+                const imgEl = document.getElementById(`g-img-${index + 1}`);
+                const possiblePaths = [
+                    `IMG_${num}.jpeg`,
+                    `IMG_${num}.JPG`,
+                    `IMG_${num}.jpg`,
+                    `IMG_${num} 2.JPG`,
+                    `IMG_${num} 2.jpg`,
+                    `IMG_${num} 2.jpeg`
+                ];
+
+                let loaded = false;
+                possiblePaths.forEach(path => {
+                    if (loaded) return;
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        if (!loaded) {
+                            loaded = true;
+                            if (imgEl) imgEl.src = path;
+                        }
+                    };
+                    tempImg.src = path;
+                });
+            });
+        }
+
+        const SECRET_PIN = "13102025";
+        let enteredPIN = "";
+        let attemptCount = 0;
+        let isInputLocked = false;
+        let heartInterval = null;
+
+        function goToPinScreen() {
+            document.getElementById('screen-rules').classList.remove('active');
+            document.getElementById('screen-pin').classList.add('active');
+        }
+
+        function setKeypadLocked(locked) {
+            isInputLocked = locked;
+            const keys = document.querySelectorAll('.key');
+            keys.forEach(key => {
+                if (locked) { key.classList.add('disabled'); } 
+                else { key.classList.remove('disabled'); }
+            });
+        }
+
+        function pressKey(num) {
+            if (isInputLocked) return;
+            if (enteredPIN.length < 8) {
+                enteredPIN += num;
+                updateDots();
+                if (enteredPIN.length === 8) { setTimeout(checkPIN, 200); }
+            }
+        }
+
+        function clearPIN() {
+            if (isInputLocked) return;
+            enteredPIN = "";
+            updateDots();
+        }
+
+        function updateDots() {
+            for (let i = 1; i <= 8; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                if (i <= enteredPIN.length) { dot.classList.add('filled'); } 
+                else { dot.classList.remove('filled'); }
+            }
+        }
+
+        function checkPIN() {
+            attemptCount++;
+            if (attemptCount === 1) {
+                alert("❌ Cod incorect! Mai ai doar 1 încercare!");
+                document.getElementById("pin-status").innerText = "⚠️ Mai ai 1 încercare!";
+                clearPIN();
+            } else if (attemptCount === 2) {
+                alert("❌ Cod incorect! Cadourile s-au blocat!");
+                document.getElementById("pin-status").innerText = "";
+                clearPIN();
+                setKeypadLocked(true);
+                setTimeout(() => {
+                    document.getElementById("pin-status").innerText = "Sistemul ți-a oferit totuși încă 2 încercări de salvare.";
+                    setKeypadLocked(false);
+                }, 7000);
+            } else {
+                if (enteredPIN === SECRET_PIN) {
+                    document.getElementById('screen-pin').classList.remove('active');
+                    document.getElementById('screen-gifts').classList.add('active');
+                } else {
+                    alert("❌ Cod greșit! Mai încearcă!");
+                    clearPIN();
+                }
+            }
+        }
+
+        const audio = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const floatingMusicBtn = document.getElementById('floating-music-btn');
+        const vinyl = document.getElementById('vinyl-disk');
+        const progressFill = document.getElementById('progress-fill');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalDurationEl = document.getElementById('total-duration');
+
+        function openMusicModal() { document.getElementById('modal-music').classList.add('active'); }
+        function closeMusicModal() { document.getElementById('modal-music').classList.remove('active'); }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                updateMusicUI(true);
+            } else {
+                audio.pause();
+                updateMusicUI(false);
+            }
+        }
+
+        function toggleFloatingPlay() { togglePlay(); }
+
+        function updateMusicUI(isPlaying) {
+            if (isPlaying) {
+                playBtn.innerText = "⏸";
+                floatingMusicBtn.innerText = "🔊";
+                floatingMusicBtn.classList.add('playing');
+                vinyl.classList.add('spinning');
+            } else {
+                playBtn.innerText = "▶";
+                floatingMusicBtn.innerText = "🎵";
+                floatingMusicBtn.classList.remove('playing');
+                vinyl.classList.remove('spinning');
+            }
+        }
+
+        function skipTime(seconds) { audio.currentTime += seconds; }
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const pct = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = pct + '%';
+                currentTimeEl.innerText = formatTime(audio.currentTime);
+                totalDurationEl.innerText = formatTime(audio.duration);
+            }
+        });
+
+        function seekAudio(event) {
+            const wrapper = document.getElementById('progress-wrapper');
+            const rect = wrapper.getBoundingClientRect();
+            if (audio.duration) { audio.currentTime = ((event.clientX - rect.left) / rect.width) * audio.duration; }
+        }
+
+        function seekAudioTouch(event) {
+            event.preventDefault();
+            const wrapper = document.getElementById('progress-wrapper');
+            const rect = wrapper.getBoundingClientRect();
+            let pos = event.touches[0].clientX - rect.left;
+            if (pos < 0) pos = 0; if (pos > rect.width) pos = rect.width;
+            if (audio.duration) { audio.currentTime = (pos / rect.width) * audio.duration; }
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function goToLetter() {
+            closeMusicModal();
+            document.getElementById('screen-gifts').classList.remove('active');
+            document.getElementById('screen-letter').classList.add('active');
+        }
+
+        function openEnvelope() {
+            document.getElementById('envelope').classList.add('open');
+            document.getElementById('envelope-hint').style.opacity = '0';
+            setTimeout(() => { document.getElementById('btn-finish-letter').style.display = 'inline-block'; }, 1000);
+        }
+
+        function goToThemePrompt() {
+            document.getElementById('screen-letter').classList.remove('active');
+            document.getElementById('screen-theme-prompt').classList.add('active');
+        }
+
+        function applyLoveTheme() {
+            document.body.classList.add('love-dark-mode');
+            document.getElementById('theme-card-text').innerHTML = "Acum totul este perfect! Să nu uiți niciodată cât de mult te iubesc! ♥";
+            document.getElementById('btn-change-theme').style.display = 'none';
+            document.getElementById('btn-after-theme-next').style.display = 'inline-block';
+
+            if (!heartInterval) {
+                heartInterval = setInterval(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    heart.innerText = '♥';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 2.5) + 's';
+                    document.body.appendChild(heart);
+                    setTimeout(() => { heart.remove(); }, 4000);
+                }, 300);
+            }
+        }
+
+        function goToGallery() {
+            document.getElementById('screen-theme-prompt').classList.remove('active');
+            document.getElementById('screen-gallery').classList.add('active');
+        }
+
+        function goToFinalScreen() {
+            document.getElementById('screen-gallery').classList.remove('active');
+            document.getElementById('screen-final').classList.add('active');
+        }
+
+        window.onload = autoLoadImages;
+        document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+    </script>
+</body>
+</html>
