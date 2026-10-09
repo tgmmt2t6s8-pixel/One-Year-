@@ -136,31 +136,14 @@
         .key:active { transform: scale(0.95); }
         .key.disabled { opacity: 0.5; pointer-events: none; }
 
-        .gifts-grid { display: flex; justify-content: center; gap: 25px; margin-top: 40px; }
-        .gift-box {
-            background: #fff; 
-            border-radius: 25px; 
-            padding: 25px 20px; 
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(216, 107, 129, 0.15); 
-            transition: all 0.3s ease;
+        /* CARD PLAYER INTEGRAT */
+        .music-card {
+            background: #fff5f7;
+            padding: 30px 20px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(216, 107, 129, 0.15);
+            text-align: center;
         }
-        .gift-box:hover { transform: translateY(-10px) scale(1.05); }
-        .gift-icon { font-size: 4rem; }
-
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;
-        }
-        .modal.active { display: flex; }
-        .modal-content {
-            background: #fff; padding: 30px; border-radius: 25px; max-width: 450px; width: 90%;
-            position: relative; animation: popIn 0.3s ease; text-align: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            color: #5a3e43;
-        }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #aaa; }
 
         .vinyl { 
             width: 110px; height: 110px; background: #222; border-radius: 50%; margin: 15px auto; 
@@ -370,7 +353,39 @@
                 <li>✨ <b>4.</b> Fii foarte atentă la tot ce va urma...</li>
             </ul>
             <br>
-            <button class="btn-next-step" onclick="goToPinScreen()">Am înțeles ➔</button>
+            <button class="btn-next-step" onclick="goToMusicScreen()">Am înțeles ➔</button>
+        </div>
+    </div>
+
+    <!-- ECRANUL NOU: PLAYER MUZICĂ ÎNAINTE DE PIN -->
+    <div id="screen-music" class="screen">
+        <div class="music-card">
+            <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: #d86b81; margin-bottom: 5px;">Muzica Noastră ♥</h2>
+            
+            <div class="vinyl" id="vinyl-disk"><div class="vinyl-inner"></div></div>
+            
+            <div class="song-title">Dacă tu n-ai fi</div>
+            <div class="song-artist">Leo de la Roșiori (Concert Evolution Live 2024)</div>
+
+            <div class="progress-wrapper" id="progress-wrapper" onclick="seekAudio(event)" ontouchstart="seekAudioTouch(event)" ontouchmove="seekAudioTouch(event)">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            <div class="time-stamps">
+                <span id="current-time">0:00</span>
+                <span id="total-duration">0:00</span>
+            </div>
+
+            <div class="player-controls">
+                <button class="btn-control" onclick="skipTime(-10)">-10s</button>
+                <button class="btn-control play-btn" id="play-btn" onclick="togglePlay()">▶</button>
+                <button class="btn-control" onclick="skipTime(10)">+10s</button>
+            </div>
+
+            <p class="hint-text">Dă play de la minutul 1:00 🎵</p>
+
+            <button class="btn-next-step" onclick="goToPinScreen()">Next ➔</button>
         </div>
     </div>
 
@@ -416,13 +431,13 @@
         <p style="color: #888;">Alege un cadou ♥</p>
         
         <div class="gifts-grid">
-            <div class="gift-box" onclick="openMusicModal()">
+            <div class="gift-box" onclick="goToLetterFromGift()">
                 <div class="gift-icon">🎁</div>
             </div>
-            <div class="gift-box" onclick="openMusicModal()">
+            <div class="gift-box" onclick="goToLetterFromGift()">
                 <div class="gift-icon">🎁</div>
             </div>
-            <div class="gift-box" onclick="openMusicModal()">
+            <div class="gift-box" onclick="goToLetterFromGift()">
                 <div class="gift-icon">🎁</div>
             </div>
         </div>
@@ -474,8 +489,8 @@
                 <div class="gallery-card"><img src="IMG_3844.jpeg" alt="Amintire 1"><div class="gallery-caption">Râsete și momente nebune 🤪</div></div>
                 <div class="gallery-card"><img src="IMG_3845.jpeg" alt="Amintire 2"><div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div></div>
                 <div class="gallery-card"><img src="IMG_3846.jpeg" alt="Amintire 3"><div class="gallery-caption">Lângă tine în fiecare seară 🌙</div></div>
-                <!-- Poza 4 înlocuită temporar cu IMG_3853 să funcționeze sigur -->
-                <div class="gallery-card"><img src="IMG_3853.jpeg" alt="Amintire 4"><div class="gallery-caption">Plimbările noastre drage 🌿</div></div>
+                <!-- Poza 4 temporar cu IMG_3853, sau pune IMG_3847.jpeg când o urci -->
+                <div class="gallery-card"><img src="IMG_3847.jpeg" alt="Amintire 4"><div class="gallery-caption">Plimbările noastre drage 🌿</div></div>
                 <div class="gallery-card"><img src="IMG_3848.jpeg" alt="Amintire 5"><div class="gallery-caption">Vibe-ul nostru unic ✌️</div></div>
                 <div class="gallery-card"><img src="IMG_3849.jpeg" alt="Amintire 6"><div class="gallery-caption">Săruturi dulci 💋</div></div>
                 <div class="gallery-card"><img src="IMG_3850.jpeg" alt="Amintire 7"><div class="gallery-caption">Cea mai frumoasă zi ☀️</div></div>
@@ -500,39 +515,7 @@
         </div>
     </div>
 
-    <!-- MODAL: PLAYER MUZICĂ -->
-    <div id="modal-music" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeMusicModal()">&times;</span>
-            
-            <div class="vinyl" id="vinyl-disk"><div class="vinyl-inner"></div></div>
-            
-            <div class="song-title">Dacă tu n-ai fi</div>
-            <div class="song-artist">Leo de la Roșiori (Concert Evolution Live 2024)</div>
-
-            <div class="progress-wrapper" id="progress-wrapper" onclick="seekAudio(event)" ontouchstart="seekAudioTouch(event)" ontouchmove="seekAudioTouch(event)">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-            </div>
-            <div class="time-stamps">
-                <span id="current-time">0:00</span>
-                <span id="total-duration">0:00</span>
-            </div>
-
-            <div class="player-controls">
-                <button class="btn-control" onclick="skipTime(-10)">-10s</button>
-                <button class="btn-control play-btn" id="play-btn" onclick="togglePlay()">▶</button>
-                <button class="btn-control" onclick="skipTime(10)">+10s</button>
-            </div>
-
-            <p class="hint-text">Dă play de la minutul 1:00 🎵</p>
-
-            <button class="btn-next-step" onclick="goToLetter()">Next ➔</button>
-
-            <audio id="audio-player" src="melodie.mp3" preload="auto"></audio>
-        </div>
-    </div>
+    <audio id="audio-player" src="melodie.mp3" preload="auto"></audio>
 
     <script>
         window.onload = function() {
@@ -542,16 +525,21 @@
             }
         };
 
+        function goToMusicScreen() {
+            document.getElementById('screen-rules').classList.remove('active');
+            document.getElementById('screen-music').classList.add('active');
+        }
+
+        function goToPinScreen() {
+            document.getElementById('screen-music').classList.remove('active');
+            document.getElementById('screen-pin').classList.add('active');
+        }
+
         const SECRET_PIN = "13102025";
         let enteredPIN = "";
         let attemptCount = 0;
         let isInputLocked = false;
         let heartInterval = null;
-
-        function goToPinScreen() {
-            document.getElementById('screen-rules').classList.remove('active');
-            document.getElementById('screen-pin').classList.add('active');
-        }
 
         function setKeypadLocked(locked) {
             isInputLocked = locked;
@@ -619,9 +607,6 @@
         const currentTimeEl = document.getElementById('current-time');
         const totalDurationEl = document.getElementById('total-duration');
 
-        function openMusicModal() { document.getElementById('modal-music').classList.add('active'); }
-        function closeMusicModal() { document.getElementById('modal-music').classList.remove('active'); }
-
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
@@ -680,8 +665,7 @@
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        function goToLetter() {
-            closeMusicModal();
+        function goToLetterFromGift() {
             document.getElementById('screen-gifts').classList.remove('active');
             document.getElementById('screen-letter').classList.add('active');
         }
