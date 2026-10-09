@@ -28,13 +28,23 @@
             transition: background-color 1s ease, color 1s ease;
         }
 
-        /* TEMA "LOVE DARK MODE" (SE ACTIVEAZĂ LA FINAL) */
+        /* TEMA "LOVE DARK MODE" */
         body.love-dark-mode {
             background-color: #1a080c;
             color: #ffd1dc;
         }
 
-        .screen { display: none; width: 100%; max-width: 600px; padding: 20px; text-align: center; }
+        .screen { 
+            display: none; 
+            width: 100%; 
+            max-width: 600px; 
+            padding: 20px; 
+            text-align: center; 
+            position: relative; 
+            z-index: 10; 
+            max-height: 90vh;
+            overflow-y: auto;
+        }
         .screen.active { display: block; }
 
         /* BUTON FLOATING PENTRU MUZICĂ ÎN COLȚ */
@@ -145,7 +155,7 @@
         /* POPUP PLAYER MUSIC */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 10;
+            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;
         }
         .modal.active { display: flex; }
         .modal-content {
@@ -228,12 +238,8 @@
         }
         .btn-next-step:active { transform: scale(0.95); }
 
-        /* ANIMAȚIE PLIC REALA ȘI COMPLET ÎNCHISĂ */
-        .envelope-container {
-            position: relative;
-            margin-top: 50px;
-        }
-
+        /* PLIC DE DRAGOSTE */
+        .envelope-container { position: relative; margin-top: 50px; }
         .click-hint {
             font-size: 1.1rem;
             color: #d86b81;
@@ -242,11 +248,7 @@
             animation: bounce 1.5s infinite;
             transition: opacity 0.3s;
         }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
         .envelope-wrapper {
             position: relative;
@@ -261,84 +263,46 @@
 
         .envelope-back {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #d47388;
-            border-radius: 8px;
-            z-index: 1;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #d47388; border-radius: 8px; z-index: 1;
         }
 
         .letter {
             position: absolute;
-            bottom: 10px;
-            left: 15px;
-            width: 250px;
-            height: 160px;
-            background: #ffffff;
-            border-radius: 8px;
-            padding: 15px;
+            bottom: 10px; left: 15px; width: 250px; height: 160px;
+            background: #ffffff; border-radius: 8px; padding: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             transform: translateY(0);
             transition: transform 0.8s ease 0.4s, z-index 0.1s linear 0.4s, height 0.4s ease 0.8s;
-            z-index: 2;
-            overflow: hidden;
-            text-align: left;
+            z-index: 2; overflow: hidden; text-align: left;
         }
 
         .letter p {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.15rem;
-            line-height: 1.4;
-            color: #4a3337;
+            font-size: 1.15rem; line-height: 1.4; color: #4a3337;
         }
 
         .envelope-pocket {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 140px solid #e07d92;
-            border-right: 140px solid #e07d92;
-            border-top: 95px solid transparent;
-            border-bottom: 85px solid #d86f85;
-            border-bottom-left-radius: 8px;
-            border-bottom-right-radius: 8px;
-            z-index: 3;
+            position: absolute; bottom: 0; left: 0; width: 0; height: 0;
+            border-left: 140px solid #e07d92; border-right: 140px solid #e07d92;
+            border-top: 95px solid transparent; border-bottom: 85px solid #d86f85;
+            border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 3;
         }
 
         .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 140px solid transparent;
-            border-right: 140px solid transparent;
+            position: absolute; top: 0; left: 0; width: 0; height: 0;
+            border-left: 140px solid transparent; border-right: 140px solid transparent;
             border-top: 105px solid #c86379;
-            transform-origin: top;
-            transition: transform 0.5s ease;
-            z-index: 4;
+            transform-origin: top; transition: transform 0.5s ease; z-index: 4;
         }
 
-        .envelope-wrapper.open .envelope-flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
+        .envelope-wrapper.open .envelope-flap { transform: rotateX(180deg); z-index: 1; }
+        .envelope-wrapper.open .letter { transform: translateY(-160px); z-index: 5; height: 280px; overflow-y: auto; }
 
-        .envelope-wrapper.open .letter {
-            transform: translateY(-160px);
-            z-index: 5;
-            height: 280px;
-            overflow-y: auto;
-        }
-
-        /* ECRAN PRE-SCHIMBARE TEMĂ & TEMA LOVE DARK MODE */
+        /* CARTOANELOR DIN TEMA LOVE DARK MODE */
         .theme-card {
             background: #fff5f7;
-            padding: 35px 20px;
+            padding: 30px 20px;
             border-radius: 25px;
             box-shadow: 0 15px 35px rgba(216, 107, 129, 0.15);
             transition: background 1s ease, border-color 1s ease;
@@ -351,38 +315,52 @@
             backdrop-filter: blur(10px);
         }
 
-        .theme-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3rem;
-            color: #d86b81;
-            margin-bottom: 15px;
-        }
+        .theme-title { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #d86b81; margin-bottom: 15px; }
+        body.love-dark-mode .theme-title { color: #ff8da1; }
 
-        body.love-dark-mode .theme-title {
-            color: #ff8da1;
-        }
+        .theme-text { font-size: 1.1rem; line-height: 1.6; color: #5a3e43; }
+        body.love-dark-mode .theme-text { color: #ffd1dc; }
 
-        .theme-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #5a3e43;
+        /* GALERIE FOTO DESIGN INTERACTIV */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
         }
-
-        body.love-dark-mode .theme-text {
+        .gallery-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 8px;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease;
+        }
+        .gallery-card:active { transform: scale(0.98); }
+        .gallery-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .gallery-caption {
+            font-size: 0.85rem;
+            margin-top: 6px;
             color: #ffd1dc;
+            font-style: italic;
         }
 
-        /* INIMIOARE PLUTITOARE PENTRU TEMA LOVE */
+        /* INIMIOARE PLUTITOARE */
         .floating-heart {
             position: fixed;
             color: #ff4d6d;
             font-size: 1.5rem;
             pointer-events: none;
-            z-index: 99;
+            z-index: 1;
             animation: floatUp 4s linear forwards;
         }
         @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            0% { transform: translateY(105vh) scale(0.5); opacity: 1; }
             100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
     </style>
@@ -411,8 +389,8 @@
     <div id="screen-pin" class="screen">
         <div class="pin-container">
             <div class="pin-header">
-                <div class="photo-frame" style="background-image: url('https://via.placeholder.com/100');"></div>
-                <div class="photo-frame" style="background-image: url('https://via.placeholder.com/100');"></div>
+                <div class="photo-frame" style="background-image: url('poza1.jpg');"></div>
+                <div class="photo-frame" style="background-image: url('poza10.jpg');"></div>
             </div>
             <h2 class="pin-title">Enter our secret code ♥</h2>
             <p class="pin-subtitle" id="pin-status">⚠️ Introdu codul secret pentru deblocare</p>
@@ -486,7 +464,7 @@
         <button class="btn-next-step" id="btn-finish-letter" style="display: none; margin-top: 35px;" onclick="goToThemePrompt()">Next ➔</button>
     </div>
 
-    <!-- ECRANUL FINAL: MESAJ TEMA & SCHIMBARE TEMĂ -->
+    <!-- ECRANUL PROMPT TEMA -->
     <div id="screen-theme-prompt" class="screen">
         <div class="theme-card">
             <h1 class="theme-title" id="theme-card-title">Te doare ochii, hmm? Na, schimba tema! 🌙</h1>
@@ -494,6 +472,72 @@
                 Apasă pe butonul de mai jos pentru a trece pe **Tema Love**, creată special pentru tine, să fie mai odihnitor pentru ochișorii tăi frumoși! ♥
             </p>
             <button class="btn-next-step" id="btn-change-theme" onclick="applyLoveTheme()">Schimbă tema ✨</button>
+            <button class="btn-next-step" id="btn-after-theme-next" style="display: none; margin-top: 20px;" onclick="goToGallery()">Vezi amintirile noastre ➔</button>
+        </div>
+    </div>
+
+    <!-- ECRAN NOU: GALERIA FOTO -->
+    <div id="screen-gallery" class="screen">
+        <div class="theme-card">
+            <h1 class="theme-title">Amintirile Noastre ♥</h1>
+            <p class="theme-text" style="font-size: 0.95rem;">Un an plin de clipe de neuitat alături de tine...</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <img src="poza1.jpg" alt="Amintire 1">
+                    <div class="gallery-caption">Râsete și momente nebune 🤪</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza2.jpg" alt="Amintire 2">
+                    <div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza3.jpg" alt="Amintire 3">
+                    <div class="gallery-caption">Lângă tine în fiecare seară 🌙</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza4.jpg" alt="Amintire 4">
+                    <div class="gallery-caption">Plimbările noastre drage 🌿</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza5.jpg" alt="Amintire 5">
+                    <div class="gallery-caption">Vibe-ul nostru unic ✌️</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza6.jpg" alt="Amintire 6">
+                    <div class="gallery-caption">Săruturi dulci 💋</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza7.jpg" alt="Amintire 7">
+                    <div class="gallery-caption">Cea mai frumoasă zi ☀️</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza8.jpg" alt="Amintire 8">
+                    <div class="gallery-caption">Iubirea mea pură ♥</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza9.jpg" alt="Amintire 9">
+                    <div class="gallery-caption">Pentru totdeauna noi doi 💑</div>
+                </div>
+                <div class="gallery-card">
+                    <img src="poza10.jpg" alt="Amintire 10">
+                    <div class="gallery-caption">Strânși în brațe ca în prima zi 🤗</div>
+                </div>
+            </div>
+
+            <button class="btn-next-step" onclick="goToFinalScreen()">Ultimul mesaj ➔</button>
+        </div>
+    </div>
+
+    <!-- ECRAN FINAL: LA MULȚI ANI DE 1 AN! -->
+    <div id="screen-final" class="screen">
+        <div class="theme-card">
+            <h1 class="theme-title" style="font-size: 3.2rem; color: #ff8da1;">La Mulți Ani, Iubirea Mea! 🎉</h1>
+            <p class="theme-text" style="font-size: 1.2rem; line-height: 1.8; margin: 20px 0;">
+                A trecut <b>1 an întreg</b> plin de momente minunate, râsete și clipe speciale de când suntem împreună. <br><br>
+                Îți mulțumesc că faci fiecare zi mai frumoasă și că îmi ești alături! Ești cea mai importantă persoană pentru mine și te iubesc din ce în ce mai mult cu fiecare zi! ♥
+            </p>
+            <div style="font-size: 2.5rem; margin-top: 15px;">🥂💖👑</div>
         </div>
     </div>
 
@@ -536,8 +580,8 @@
         let enteredPIN = "";
         let attemptCount = 0;
         let isInputLocked = false;
+        let heartInterval = null;
 
-        /* TRECERE DE LA REGULI LA PIN */
         function goToPinScreen() {
             document.getElementById('screen-rules').classList.remove('active');
             document.getElementById('screen-pin').classList.add('active');
@@ -547,11 +591,8 @@
             isInputLocked = locked;
             const keys = document.querySelectorAll('.key');
             keys.forEach(key => {
-                if (locked) {
-                    key.classList.add('disabled');
-                } else {
-                    key.classList.remove('disabled');
-                }
+                if (locked) { key.classList.add('disabled'); } 
+                else { key.classList.remove('disabled'); }
             });
         }
 
@@ -560,9 +601,7 @@
             if (enteredPIN.length < 8) {
                 enteredPIN += num;
                 updateDots();
-                if (enteredPIN.length === 8) {
-                    setTimeout(checkPIN, 200);
-                }
+                if (enteredPIN.length === 8) { setTimeout(checkPIN, 200); }
             }
         }
 
@@ -575,34 +614,27 @@
         function updateDots() {
             for (let i = 1; i <= 8; i++) {
                 const dot = document.getElementById(`dot${i}`);
-                if (i <= enteredPIN.length) {
-                    dot.classList.add('filled');
-                } else {
-                    dot.classList.remove('filled');
-                }
+                if (i <= enteredPIN.length) { dot.classList.add('filled'); } 
+                else { dot.classList.remove('filled'); }
             }
         }
 
         function checkPIN() {
             attemptCount++;
-
             if (attemptCount === 1) {
                 alert("❌ Cod incorect! Mai ai doar 1 încercare!");
                 document.getElementById("pin-status").innerText = "⚠️ Mai ai 1 încercare!";
                 clearPIN();
-            } 
-            else if (attemptCount === 2) {
-                alert("❌ Cod incorect! Cadourile s-au blocat și nu le mai poți accesa! 🔒");
+            } else if (attemptCount === 2) {
+                alert("❌ Cod incorect! Cadourile s-au blocat!");
                 document.getElementById("pin-status").innerText = "";
                 clearPIN();
                 setKeypadLocked(true);
-
                 setTimeout(() => {
                     document.getElementById("pin-status").innerText = "Sistemul ți-a oferit totuși încă 2 încercări de salvare.";
                     setKeypadLocked(false);
                 }, 7000);
-            }
-            else {
+            } else {
                 if (enteredPIN === SECRET_PIN) {
                     document.getElementById('screen-pin').classList.remove('active');
                     document.getElementById('screen-gifts').classList.add('active');
@@ -613,7 +645,7 @@
             }
         }
 
-        /* PLAYER MUZICAL ȘI BUTON FLOATING */
+        /* PLAYER MUSIC */
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
         const floatingMusicBtn = document.getElementById('floating-music-btn');
@@ -622,13 +654,8 @@
         const currentTimeEl = document.getElementById('current-time');
         const totalDurationEl = document.getElementById('total-duration');
 
-        function openMusicModal() {
-            document.getElementById('modal-music').classList.add('active');
-        }
-
-        function closeMusicModal() {
-            document.getElementById('modal-music').classList.remove('active');
-        }
+        function openMusicModal() { document.getElementById('modal-music').classList.add('active'); }
+        function closeMusicModal() { document.getElementById('modal-music').classList.remove('active'); }
 
         function togglePlay() {
             if (audio.paused) {
@@ -640,9 +667,7 @@
             }
         }
 
-        function toggleFloatingPlay() {
-            togglePlay();
-        }
+        function toggleFloatingPlay() { togglePlay(); }
 
         function updateMusicUI(isPlaying) {
             if (isPlaying) {
@@ -658,9 +683,7 @@
             }
         }
 
-        function skipTime(seconds) {
-            audio.currentTime += seconds;
-        }
+        function skipTime(seconds) { audio.currentTime += seconds; }
 
         audio.addEventListener('timeupdate', () => {
             if (audio.duration) {
@@ -674,24 +697,16 @@
         function seekAudio(event) {
             const wrapper = document.getElementById('progress-wrapper');
             const rect = wrapper.getBoundingClientRect();
-            const clickPosition = event.clientX - rect.left;
-            const barWidth = rect.width;
-            if (audio.duration) {
-                audio.currentTime = (clickPosition / barWidth) * audio.duration;
-            }
+            if (audio.duration) { audio.currentTime = ((event.clientX - rect.left) / rect.width) * audio.duration; }
         }
 
         function seekAudioTouch(event) {
             event.preventDefault();
             const wrapper = document.getElementById('progress-wrapper');
             const rect = wrapper.getBoundingClientRect();
-            const touch = event.touches[0];
-            let clickPosition = touch.clientX - rect.left;
-            if (clickPosition < 0) clickPosition = 0;
-            if (clickPosition > rect.width) clickPosition = rect.width;
-            if (audio.duration) {
-                audio.currentTime = (clickPosition / rect.width) * audio.duration;
-            }
+            let pos = event.touches[0].clientX - rect.left;
+            if (pos < 0) pos = 0; if (pos > rect.width) pos = rect.width;
+            if (audio.duration) { audio.currentTime = (pos / rect.width) * audio.duration; }
         }
 
         function formatTime(seconds) {
@@ -700,7 +715,6 @@
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        /* TRECERE LA SCRISOARE */
         function goToLetter() {
             closeMusicModal();
             document.getElementById('screen-gifts').classList.remove('active');
@@ -708,49 +722,47 @@
         }
 
         function openEnvelope() {
-            const envelope = document.getElementById('envelope');
-            envelope.classList.add('open');
+            document.getElementById('envelope').classList.add('open');
             document.getElementById('envelope-hint').style.opacity = '0';
-            
-            // Afișează butonul "Next" pentru scrisoarea citită
-            setTimeout(() => {
-                document.getElementById('btn-finish-letter').style.display = 'inline-block';
-            }, 1000);
+            setTimeout(() => { document.getElementById('btn-finish-letter').style.display = 'inline-block'; }, 1000);
         }
 
-        /* TRECERE LA ECRANUL PROMPT PENTRU TEMĂ */
         function goToThemePrompt() {
             document.getElementById('screen-letter').classList.remove('active');
             document.getElementById('screen-theme-prompt').classList.add('active');
         }
 
-        /* APLICARE TEMA LOVE DARK MODE */
         function applyLoveTheme() {
             document.body.classList.add('love-dark-mode');
-            
-            // Schimbăm textul și ascundem butonul
-            document.getElementById('theme-card-text').innerHTML = "Acum totul este perfect! Să nu uiți niciodată cât de mult te iubesc și cât de mult însemni pentru mine! ♥";
+            document.getElementById('theme-card-text').innerHTML = "Acum totul este perfect! Să nu uiți niciodată cât de mult te iubesc! ♥";
             document.getElementById('btn-change-theme').style.display = 'none';
+            document.getElementById('btn-after-theme-next').style.display = 'inline-block';
 
-            // Pornește animația cu inimioarele plutitoare
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.classList.add('floating-heart');
-                heart.innerText = '♥';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                document.body.appendChild(heart);
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 4000);
-            }, 300);
+            if (!heartInterval) {
+                heartInterval = setInterval(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('floating-heart');
+                    heart.innerText = '♥';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 2.5) + 's';
+                    document.body.appendChild(heart);
+                    setTimeout(() => { heart.remove(); }, 4000);
+                }, 300);
+            }
         }
 
-        // BLOCARE ZOOM
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
+        /* NAVIGARE LA GALERIE ȘI ECRAN FINAL */
+        function goToGallery() {
+            document.getElementById('screen-theme-prompt').classList.remove('active');
+            document.getElementById('screen-gallery').classList.add('active');
+        }
+
+        function goToFinalScreen() {
+            document.getElementById('screen-gallery').classList.remove('active');
+            document.getElementById('screen-final').classList.add('active');
+        }
+
+        document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
     </script>
 </body>
 </html>
