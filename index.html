@@ -28,7 +28,6 @@
             transition: background-color 1s ease, color 1s ease;
         }
 
-        /* TEMA "LOVE DARK MODE" */
         body.love-dark-mode {
             background-color: #1a080c;
             color: #ffd1dc;
@@ -47,7 +46,6 @@
         }
         .screen.active { display: block; }
 
-        /* BUTON FLOATING PENTRU MUZICĂ ÎN COLȚ */
         .music-toggle-btn {
             position: fixed;
             top: 15px;
@@ -71,7 +69,6 @@
         .music-toggle-btn.playing { animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(216, 107, 129, 0.7); } 70% { box-shadow: 0 0 0 12px rgba(216, 107, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(216, 107, 129, 0); } }
 
-        /* ECRANUL 0: REGULILE */
         .rules-card {
             background: #fff5f7;
             padding: 30px 20px;
@@ -101,7 +98,6 @@
             line-height: 1.3;
         }
 
-        /* SCENA 1: CODUL SECRET */
         .pin-container {
             background: #fff5f7;
             padding: 30px;
@@ -139,7 +135,6 @@
         .key:active { transform: scale(0.95); }
         .key.disabled { opacity: 0.5; pointer-events: none; }
 
-        /* SCENA 2: CADOURILE */
         .gifts-grid { display: flex; justify-content: center; gap: 25px; margin-top: 40px; }
         .gift-box {
             background: #fff; 
@@ -152,7 +147,6 @@
         .gift-box:hover { transform: translateY(-10px) scale(1.05); }
         .gift-icon { font-size: 4rem; }
 
-        /* POPUP PLAYER MUSIC */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;
@@ -167,7 +161,6 @@
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #aaa; }
 
-        /* DESIGN PLAYER AUDIO */
         .vinyl { 
             width: 110px; height: 110px; background: #222; border-radius: 50%; margin: 15px auto; 
             border: 6px solid #333; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
@@ -238,7 +231,6 @@
         }
         .btn-next-step:active { transform: scale(0.95); }
 
-        /* PLIC DE DRAGOSTE */
         .envelope-container { position: relative; margin-top: 50px; }
         .click-hint {
             font-size: 1.1rem;
@@ -299,7 +291,6 @@
         .envelope-wrapper.open .envelope-flap { transform: rotateX(180deg); z-index: 1; }
         .envelope-wrapper.open .letter { transform: translateY(-160px); z-index: 5; height: 280px; overflow-y: auto; }
 
-        /* CARTOANELOR DIN TEMA LOVE DARK MODE */
         .theme-card {
             background: #fff5f7;
             padding: 30px 20px;
@@ -321,7 +312,6 @@
         .theme-text { font-size: 1.1rem; line-height: 1.6; color: #5a3e43; }
         body.love-dark-mode .theme-text { color: #ffd1dc; }
 
-        /* GALERIE FOTO DESIGN INTERACTIV */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -350,7 +340,6 @@
             font-style: italic;
         }
 
-        /* INIMIOARE PLUTITOARE */
         .floating-heart {
             position: fixed;
             color: #ff4d6d;
@@ -367,10 +356,8 @@
 </head>
 <body>
 
-    <!-- BUTON FLOATING PENTRU MUZICĂ -->
     <div class="music-toggle-btn" id="floating-music-btn" onclick="toggleFloatingPlay()">🎵</div>
 
-    <!-- ECRANUL 0: REGULI -->
     <div id="screen-rules" class="screen active">
         <div class="rules-card">
             <h1 class="rules-title">Reguli importante ♥</h1>
@@ -385,12 +372,11 @@
         </div>
     </div>
 
-    <!-- SCENA 1: INTRODUCERE COD SECRET -->
     <div id="screen-pin" class="screen">
         <div class="pin-container">
             <div class="pin-header">
-                <div class="photo-frame" style="background-image: url('IMG_3844.jpeg');"></div>
-                <div class="photo-frame" style="background-image: url('IMG_3853.jpeg');"></div>
+                <div class="photo-frame" id="pin-photo-1"></div>
+                <div class="photo-frame" id="pin-photo-2"></div>
             </div>
             <h2 class="pin-title">Enter our secret code ♥</h2>
             <p class="pin-subtitle" id="pin-status">⚠️ Introdu codul secret pentru deblocare</p>
@@ -422,7 +408,6 @@
         </div>
     </div>
 
-    <!-- SCENA 2: CADOURILE -->
     <div id="screen-gifts" class="screen">
         <h1 style="font-family: 'Great Vibes', cursive; font-size: 3rem; color: #d86b81;">You unlocked it!</h1>
         <p style="color: #888;">Alege un cadou ♥</p>
@@ -440,7 +425,6 @@
         </div>
     </div>
 
-    <!-- SCENA 3: SCRISOARE DE DRAGOSTE -->
     <div id="screen-letter" class="screen">
         <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: #d86b81;">Pentru sufletul meu ♥</h2>
         
@@ -464,7 +448,6 @@
         <button class="btn-next-step" id="btn-finish-letter" style="display: none; margin-top: 35px;" onclick="goToThemePrompt()">Next ➔</button>
     </div>
 
-    <!-- ECRANUL PROMPT TEMA -->
     <div id="screen-theme-prompt" class="screen">
         <div class="theme-card">
             <h1 class="theme-title" id="theme-card-title">Te doare ochii, hmm? Na, schimba tema! 🌙</h1>
@@ -476,60 +459,28 @@
         </div>
     </div>
 
-    <!-- ECRAN NOU: GALERIA FOTO -->
     <div id="screen-gallery" class="screen">
         <div class="theme-card">
             <h1 class="theme-title">Amintirile Noastre ♥</h1>
             <p class="theme-text" style="font-size: 0.95rem;">Un an plin de clipe de neuitat alături de tine...</p>
             
             <div class="gallery-grid">
-                <div class="gallery-card">
-                    <img src="IMG_3844.jpeg" alt="Amintire 1">
-                    <div class="gallery-caption">Râsete și momente nebune 🤪</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3845.jpeg" alt="Amintire 2">
-                    <div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3846.jpeg" alt="Amintire 3">
-                    <div class="gallery-caption">Lângă tine în fiecare seară 🌙</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3847.jpeg" alt="Amintire 4">
-                    <div class="gallery-caption">Plimbările noastre drage 🌿</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3848.jpeg" alt="Amintire 5">
-                    <div class="gallery-caption">Vibe-ul nostru unic ✌️</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3849.jpeg" alt="Amintire 6">
-                    <div class="gallery-caption">Săruturi dulci 💋</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3850.jpeg" alt="Amintire 7">
-                    <div class="gallery-caption">Cea mai frumoasă zi ☀️</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3851.jpeg" alt="Amintire 8">
-                    <div class="gallery-caption">Iubirea mea pură ♥</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3852.jpeg" alt="Amintire 9">
-                    <div class="gallery-caption">Pentru totdeauna noi doi 💑</div>
-                </div>
-                <div class="gallery-card">
-                    <img src="IMG_3853.jpeg" alt="Amintire 10">
-                    <div class="gallery-caption">Strânși în brațe ca în prima zi 🤗</div>
-                </div>
+                <div class="gallery-card"><img id="g-img-1" alt="Amintire 1"><div class="gallery-caption">Râsete și momente nebune 🤪</div></div>
+                <div class="gallery-card"><img id="g-img-2" alt="Amintire 2"><div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div></div>
+                <div class="gallery-card"><img id="g-img-3" alt="Amintire 3"><div class="gallery-caption">Lângă tine în fiecare seară 🌙</div></div>
+                <div class="gallery-card"><img id="g-img-4" alt="Amintire 4"><div class="gallery-caption">Plimbările noastre drage 🌿</div></div>
+                <div class="gallery-card"><img id="g-img-5" alt="Amintire 5"><div class="gallery-caption">Vibe-ul nostru unic ✌️</div></div>
+                <div class="gallery-card"><img id="g-img-6" alt="Amintire 6"><div class="gallery-caption">Săruturi dulci 💋</div></div>
+                <div class="gallery-card"><img id="g-img-7" alt="Amintire 7"><div class="gallery-caption">Cea mai frumoasă zi ☀️</div></div>
+                <div class="gallery-card"><img id="g-img-8" alt="Amintire 8"><div class="gallery-caption">Iubirea mea pură ♥</div></div>
+                <div class="gallery-card"><img id="g-img-9" alt="Amintire 9"><div class="gallery-caption">Pentru totdeauna noi doi 💑</div></div>
+                <div class="gallery-card"><img id="g-img-10" alt="Amintire 10"><div class="gallery-caption">Strânși în brațe ca în prima zi 🤗</div></div>
             </div>
 
             <button class="btn-next-step" onclick="goToFinalScreen()">Ultimul mesaj ➔</button>
         </div>
     </div>
 
-    <!-- ECRAN FINAL: LA MULȚI ANI DE 1 AN! -->
     <div id="screen-final" class="screen">
         <div class="theme-card">
             <h1 class="theme-title" style="font-size: 3.2rem; color: #ff8da1;">La Mulți Ani, Iubirea Mea! 🎉</h1>
@@ -541,7 +492,6 @@
         </div>
     </div>
 
-    <!-- MODAL: PLAYER MUZICĂ -->
     <div id="modal-music" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeMusicModal()">&times;</span>
@@ -576,6 +526,41 @@
     </div>
 
     <script>
+        const imageNumbers = [3844, 3845, 3846, 3847, 3848, 3849, 3850, 3851, 3852, 3853];
+
+        function autoLoadImages() {
+            imageNumbers.forEach((num, index) => {
+                const imgEl = document.getElementById(`g-img-${index + 1}`);
+                const possiblePaths = [
+                    `IMG_${num} 2.JPG`,
+                    `IMG_${num} 2.jpg`,
+                    `IMG_${num} 2.jpeg`,
+                    `IMG_${num}.jpeg`,
+                    `IMG_${num}.JPG`,
+                    `IMG_${num}.jpg`
+                ];
+
+                let loaded = false;
+                possiblePaths.forEach(path => {
+                    if (loaded) return;
+                    const tempImg = new Image();
+                    tempImg.onload = () => {
+                        if (!loaded) {
+                            loaded = true;
+                            if (imgEl) imgEl.src = path;
+                            if (index === 0) {
+                                document.getElementById('pin-photo-1').style.backgroundImage = `url('${encodeURIComponent(path)}')`;
+                            }
+                            if (index === 9) {
+                                document.getElementById('pin-photo-2').style.backgroundImage = `url('${encodeURIComponent(path)}')`;
+                            }
+                        }
+                    };
+                    tempImg.src = path;
+                });
+            });
+        }
+
         const SECRET_PIN = "13102025";
         let enteredPIN = "";
         let attemptCount = 0;
@@ -645,7 +630,6 @@
             }
         }
 
-        /* PLAYER MUSIC */
         const audio = document.getElementById('audio-player');
         const playBtn = document.getElementById('play-btn');
         const floatingMusicBtn = document.getElementById('floating-music-btn');
@@ -751,7 +735,6 @@
             }
         }
 
-        /* NAVIGARE LA GALERIE ȘI ECRAN FINAL */
         function goToGallery() {
             document.getElementById('screen-theme-prompt').classList.remove('active');
             document.getElementById('screen-gallery').classList.add('active');
@@ -762,6 +745,7 @@
             document.getElementById('screen-final').classList.add('active');
         }
 
+        window.onload = autoLoadImages;
         document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
     </script>
 </body>
