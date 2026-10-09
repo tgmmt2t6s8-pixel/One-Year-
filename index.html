@@ -471,16 +471,17 @@
             <p class="theme-text" style="font-size: 0.95rem;">Un an plin de clipe de neuitat alături de tine...</p>
             
             <div class="gallery-grid">
-                <div class="gallery-card"><img id="g-img-1" alt="Amintire 1"><div class="gallery-caption">Râsete și momente nebune 🤪</div></div>
-                <div class="gallery-card"><img id="g-img-2" alt="Amintire 2"><div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div></div>
-                <div class="gallery-card"><img id="g-img-3" alt="Amintire 3"><div class="gallery-caption">Lângă tine în fiecare seară 🌙</div></div>
-                <div class="gallery-card"><img id="g-img-4" alt="Amintire 4"><div class="gallery-caption">Plimbările noastre drage 🌿</div></div>
-                <div class="gallery-card"><img id="g-img-5" alt="Amintire 5"><div class="gallery-caption">Vibe-ul nostru unic ✌️</div></div>
-                <div class="gallery-card"><img id="g-img-6" alt="Amintire 6"><div class="gallery-caption">Săruturi dulci 💋</div></div>
-                <div class="gallery-card"><img id="g-img-7" alt="Amintire 7"><div class="gallery-caption">Cea mai frumoasă zi ☀️</div></div>
-                <div class="gallery-card"><img id="g-img-8" alt="Amintire 8"><div class="gallery-caption">Iubirea mea pură ♥</div></div>
-                <div class="gallery-card"><img id="g-img-9" alt="Amintire 9"><div class="gallery-caption">Pentru totdeauna noi doi 💑</div></div>
-                <div class="gallery-card"><img id="g-img-10" alt="Amintire 10"><div class="gallery-caption">Strânși în brațe ca în prima zi 🤗</div></div>
+                <div class="gallery-card"><img src="IMG_3844.jpeg" alt="Amintire 1"><div class="gallery-caption">Râsete și momente nebune 🤪</div></div>
+                <div class="gallery-card"><img src="IMG_3845.jpeg" alt="Amintire 2"><div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div></div>
+                <div class="gallery-card"><img src="IMG_3846.jpeg" alt="Amintire 3"><div class="gallery-caption">Lângă tine în fiecare seară 🌙</div></div>
+                <!-- Poza 4 înlocuită temporar cu IMG_3853 să funcționeze sigur -->
+                <div class="gallery-card"><img src="IMG_3853.jpeg" alt="Amintire 4"><div class="gallery-caption">Plimbările noastre drage 🌿</div></div>
+                <div class="gallery-card"><img src="IMG_3848.jpeg" alt="Amintire 5"><div class="gallery-caption">Vibe-ul nostru unic ✌️</div></div>
+                <div class="gallery-card"><img src="IMG_3849.jpeg" alt="Amintire 6"><div class="gallery-caption">Săruturi dulci 💋</div></div>
+                <div class="gallery-card"><img src="IMG_3850.jpeg" alt="Amintire 7"><div class="gallery-caption">Cea mai frumoasă zi ☀️</div></div>
+                <div class="gallery-card"><img src="IMG_3851.jpeg" alt="Amintire 8"><div class="gallery-caption">Iubirea mea pură ♥</div></div>
+                <div class="gallery-card"><img src="IMG_3852.jpeg" alt="Amintire 9"><div class="gallery-caption">Pentru totdeauna noi doi 💑</div></div>
+                <div class="gallery-card"><img src="IMG_3853.jpeg" alt="Amintire 10"><div class="gallery-caption">Strânși în brațe ca în prima zi 🤗</div></div>
             </div>
 
             <button class="btn-next-step" onclick="goToFinalScreen()">Ultimul mesaj ➔</button>
@@ -534,40 +535,12 @@
     </div>
 
     <script>
-        const imageNumbers = [3844, 3845, 3846, 3847, 3848, 3849, 3850, 3851, 3852, 3853];
-
-        function autoLoadImages() {
-            // Pune o singura poză cu voi în ramă (ultima poza - IMG_3853)
+        window.onload = function() {
             const singleFrame = document.getElementById('pin-photo-single');
             if (singleFrame) {
                 singleFrame.style.backgroundImage = "url('IMG_3853.jpeg')";
             }
-
-            imageNumbers.forEach((num, index) => {
-                const imgEl = document.getElementById(`g-img-${index + 1}`);
-                const possiblePaths = [
-                    `IMG_${num}.jpeg`,
-                    `IMG_${num}.JPG`,
-                    `IMG_${num}.jpg`,
-                    `IMG_${num} 2.JPG`,
-                    `IMG_${num} 2.jpg`,
-                    `IMG_${num} 2.jpeg`
-                ];
-
-                let loaded = false;
-                possiblePaths.forEach(path => {
-                    if (loaded) return;
-                    const tempImg = new Image();
-                    tempImg.onload = () => {
-                        if (!loaded) {
-                            loaded = true;
-                            if (imgEl) imgEl.src = path;
-                        }
-                    };
-                    tempImg.src = path;
-                });
-            });
-        }
+        };
 
         const SECRET_PIN = "13102025";
         let enteredPIN = "";
@@ -753,7 +726,6 @@
             document.getElementById('screen-final').classList.add('active');
         }
 
-        window.onload = autoLoadImages;
         document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
     </script>
 </body>
