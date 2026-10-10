@@ -324,20 +324,77 @@
             padding: 8px;
             border: 1px solid rgba(255, 182, 193, 0.3);
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, background 0.3s;
+            cursor: pointer;
         }
-        .gallery-card:active { transform: scale(0.98); }
+        .gallery-card:active { transform: scale(0.96); background: rgba(216, 107, 129, 0.15); }
         .gallery-card img {
             width: 100%;
             height: 150px;
             object-fit: cover;
             border-radius: 10px;
+            pointer-events: none;
         }
         .gallery-caption {
             font-size: 0.85rem;
             margin-top: 6px;
             color: #ffd1dc;
             font-style: italic;
+            pointer-events: none;
+        }
+
+        /* MODAL PENTRU FIECARE POZĂ MARE */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        .lightbox-modal.active { display: flex; }
+        .lightbox-content {
+            background: #fff5f7;
+            padding: 20px;
+            border-radius: 25px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: popIn 0.3s ease;
+            color: #5a3e43;
+        }
+        body.love-dark-mode .lightbox-content {
+            background: #250b11;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            color: #ffd1dc;
+        }
+        .lightbox-content img {
+            width: 100%;
+            max-height: 60vh;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #d86b81;
+            font-weight: bold;
+        }
+        .lightbox-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #d86b81;
+        }
+        body.love-dark-mode .lightbox-text {
+            color: #ff8da1;
         }
 
         .floating-heart {
@@ -499,26 +556,65 @@
     <div id="screen-gallery" class="screen">
         <div class="theme-card">
             <h1 class="theme-title">Amintirile Noastre ♥</h1>
-            <p class="theme-text" style="font-size: 0.95rem;">Un an plin de clipe de neuitat alături de tine...</p>
+            <p class="theme-text" style="font-size: 0.95rem;">Apasă pe orice poză s-o vezi mai mare ✨</p>
             
             <div class="gallery-grid">
-                <div class="gallery-card"><img src="IMG_3844.jpeg" alt="Amintire 1"><div class="gallery-caption">Râsete și momente nebune 🤪</div></div>
-                <div class="gallery-card"><img src="IMG_3845.jpeg" alt="Amintire 2"><div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div></div>
-                <div class="gallery-card"><img src="IMG_3846.jpeg" alt="Amintire 3"><div class="gallery-caption">Lângă tine în fiecare seară 🌙</div></div>
-                <div class="gallery-card"><img src="IMG_3850.jpeg" alt="Amintire 4"><div class="gallery-caption">Plimbările noastre drage 🌿</div></div>
-                <div class="gallery-card"><img src="IMG_3848.jpeg" alt="Amintire 5"><div class="gallery-caption">Vibe-ul nostru unic ✌️</div></div>
-                <div class="gallery-card"><img src="IMG_3849.jpeg" alt="Amintire 6"><div class="gallery-caption">Săruturi dulci 💋</div></div>
-                <div class="gallery-card"><img src="IMG_3850.jpeg" alt="Amintire 7"><div class="gallery-caption">Cea mai frumoasă zi ☀️</div></div>
-                <div class="gallery-card"><img src="IMG_3851.jpeg" alt="Amintire 8"><div class="gallery-caption">Iubirea mea pură ♥</div></div>
-                <div class="gallery-card"><img src="IMG_3852.jpeg" alt="Amintire 9"><div class="gallery-caption">Pentru totdeauna noi doi 💑</div></div>
-                <div class="gallery-card"><img src="IMG_3853.jpeg" alt="Amintire 10"><div class="gallery-caption">Strânși în brațe ca în prima zi 🤗</div></div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3844.jpeg', 'Râsete și momente nebune 🤪')">
+                    <img src="IMG_3844.jpeg" alt="Amintire 1">
+                    <div class="gallery-caption">Râsete și momente nebune 🤪</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3845.jpeg', 'Mereu cu zâmbetul pe buze ✨')">
+                    <img src="IMG_3845.jpeg" alt="Amintire 2">
+                    <div class="gallery-caption">Mereu cu zâmbetul pe buze ✨</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3846.jpeg', 'Lângă tine în fiecare seară 🌙')">
+                    <img src="IMG_3846.jpeg" alt="Amintire 3">
+                    <div class="gallery-caption">Lângă tine în fiecare seară 🌙</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3850.jpeg', 'Plimbările noastre drage 🌿')">
+                    <img src="IMG_3850.jpeg" alt="Amintire 4">
+                    <div class="gallery-caption">Plimbările noastre drage 🌿</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3848.jpeg', 'Vibe-ul nostru unic ✌️')">
+                    <img src="IMG_3848.jpeg" alt="Amintire 5">
+                    <div class="gallery-caption">Vibe-ul nostru unic ✌️</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3849.jpeg', 'Săruturi dulci 💋')">
+                    <img src="IMG_3849.jpeg" alt="Amintire 6">
+                    <div class="gallery-caption">Săruturi dulci 💋</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3850.jpeg', 'Cea mai frumoasă zi ☀️')">
+                    <img src="IMG_3850.jpeg" alt="Amintire 7">
+                    <div class="gallery-caption">Cea mai frumoasă zi ☀️</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3851.jpeg', 'Iubirea mea pură ♥')">
+                    <img src="IMG_3851.jpeg" alt="Amintire 8">
+                    <div class="gallery-caption">Iubirea mea pură ♥</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3852.jpeg', 'Pentru totdeauna noi doi 💑')">
+                    <img src="IMG_3852.jpeg" alt="Amintire 9">
+                    <div class="gallery-caption">Pentru totdeauna noi doi 💑</div>
+                </div>
+                <div class="gallery-card" onclick="openLightbox('IMG_3853.jpeg', 'Strânși în brațe ca în prima zi 🤗')">
+                    <img src="IMG_3853.jpeg" alt="Amintire 10">
+                    <div class="gallery-caption">Strânși în brațe ca în prima zi 🤗</div>
+                </div>
             </div>
 
             <button class="btn-next-step" onclick="goToFinalScreen()">Ultimul mesaj ➔</button>
         </div>
     </div>
 
-    <!-- ECRAN FINAL: MESAJUL NOU -->
+    <!-- LIGHTBOX MODAL PENTRU FIECARE POZĂ -->
+    <div id="lightbox" class="lightbox-modal" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <img id="lightbox-img" src="" alt="Zoom poză">
+            <div class="lightbox-text" id="lightbox-caption"></div>
+        </div>
+    </div>
+
+    <!-- ECRAN FINAL -->
     <div id="screen-final" class="screen">
         <div class="theme-card">
             <h1 class="theme-title" style="font-size: 2.8rem; color: #ff8da1;">Un an cu tine... ♥</h1>
@@ -540,6 +636,16 @@
                 singleFrame.style.backgroundImage = "url('IMG_3853.jpeg')";
             }
         };
+
+        function openLightbox(imgSrc, captionText) {
+            document.getElementById('lightbox-img').src = imgSrc;
+            document.getElementById('lightbox-caption').innerText = captionText;
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
 
         function goToMusicScreen() {
             document.getElementById('screen-rules').classList.remove('active');
