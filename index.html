@@ -343,7 +343,6 @@
             pointer-events: none;
         }
 
-        /* MODAL PENTRU FIECARE POZĂ MARE */
         .lightbox-modal {
             display: none;
             position: fixed;
@@ -456,7 +455,7 @@
                 <button class="btn-control" onclick="skipTime(10)">+10s</button>
             </div>
 
-            <p class="hint-text">Dă play de la minutul 1:00 🎵</p>
+            <p class="hint-text">Dă play să înceapă magia 🎵</p>
 
             <button class="btn-next-step" onclick="goToPinScreen()">Next ➔</button>
         </div>
@@ -731,6 +730,9 @@
 
         function togglePlay() {
             if (audio.paused) {
+                if (audio.currentTime < 5) {
+                    audio.currentTime = 60; // Sare automat la minutul 1:00
+                }
                 audio.play();
                 updateMusicUI(true);
             } else {
